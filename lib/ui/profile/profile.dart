@@ -198,7 +198,6 @@ class _ProfilePageState extends State<ProfilePage>
               children: [
                 CircleAvatar(
                   radius: 50,
-                  backgroundColor: Colors.white,
                 ),
                 const SizedBox(width: 20),
                 Column(
@@ -499,7 +498,6 @@ class _ProfilePageState extends State<ProfilePage>
                 },
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.black,
-                  backgroundColor: Colors.white,
                   side: const BorderSide(color: Colors.grey),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),

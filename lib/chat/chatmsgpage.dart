@@ -671,7 +671,6 @@ class _ChatMessagePageState extends State<ChatMessagePage>
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60.0),
           child: SlideTransition(
@@ -683,7 +682,6 @@ class _ChatMessagePageState extends State<ChatMessagePage>
               curve: Curves.easeOut,
             )),
             child: AppBar(
-              backgroundColor: Colors.white,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () {

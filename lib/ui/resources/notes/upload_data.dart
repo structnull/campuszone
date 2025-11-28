@@ -139,7 +139,6 @@ class _UploadDataPageState extends State<UploadDataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
           'Upload PDF',
@@ -148,7 +147,6 @@ class _UploadDataPageState extends State<UploadDataPage> {
         iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
       ),
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
           SingleChildScrollView(

@@ -23,7 +23,6 @@ class ResourcesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           children: [

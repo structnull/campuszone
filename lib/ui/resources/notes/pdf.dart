@@ -108,9 +108,7 @@ class PdfViewerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: const Text('PDF Viewer'),
         titleTextStyle: TextStyle(
             fontFamily: 'Excalifont', color: Colors.black, fontSize: 32),

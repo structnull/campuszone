@@ -125,7 +125,6 @@ class _HomePageState extends State<HomePage> {
         isSmallScreen ? 16.0 : screenSize.width * 0.1;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

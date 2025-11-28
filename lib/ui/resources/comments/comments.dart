@@ -162,11 +162,9 @@ class _CommentsPageState extends State<CommentsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Comments', style: TextStyle(fontSize: 24)),
-        backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
       ),
-      backgroundColor: Colors.white,
       body: Column(
         children: [
           Expanded(

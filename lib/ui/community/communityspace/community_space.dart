@@ -102,7 +102,6 @@ class _CommunitySpaceState extends State<CommunitySpace> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: _isLoading
           ? _buildShimmerEffect()
           : _hasError

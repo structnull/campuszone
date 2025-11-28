@@ -11,7 +11,7 @@ Future<void> main() async {
     url: dotenv.get('SUPABASE_URL'),
     anonKey: dotenv.get('SUPABASE_ANON_KEY'),
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 // Global Supabase client instance
@@ -23,12 +23,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white, // Set bottom gesture bar color
+      systemNavigationBarColor: Colors.white,
     ));
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Campuszone',
+
+      theme: ThemeData(
+        useMaterial3: true,
+        fontFamily: "Roboto",
+        scaffoldBackgroundColor: const Color(0xFFEEE9E3),
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+
+          titleTextStyle: TextStyle(
+            fontFamily: 'PlayfairDisplay',
+            fontSize: 24,
+            color: Colors.black,
+          ),
+        ),
+      ),
+
       home: const AuthPage(),
     );
   }

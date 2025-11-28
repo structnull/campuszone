@@ -105,7 +105,6 @@ class _NotesPageState extends State<NotesPage>
           ),
         ],
         elevation: 10,
-        backgroundColor: Colors.white,
       ),
     );
   }
@@ -140,7 +139,6 @@ class _NotesPageState extends State<NotesPage>
           ),
         ],
         elevation: 10,
-        backgroundColor: Colors.white,
       ),
     );
 
@@ -330,7 +328,6 @@ class _NotesPageState extends State<NotesPage>
             fontSize: 32,
           ),
         ),
-        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
       ),

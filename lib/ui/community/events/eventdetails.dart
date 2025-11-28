@@ -22,7 +22,6 @@ class EventDetailPage extends StatelessWidget {
         : null;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
           // Hero image with shimmer effect
@@ -68,7 +67,6 @@ class EventDetailPage extends StatelessWidget {
                   top: 16,
                   left: 16,
                   child: CircleAvatar(
-                    backgroundColor: Colors.white,
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back, color: Colors.black),
                       onPressed: () => Navigator.of(context).pop(),

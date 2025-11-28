@@ -18,7 +18,6 @@ class _CommunityPageState extends State<CommunityPage> {
   Widget build(BuildContext context) {
     // Sample community data (list of Community objects)
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(

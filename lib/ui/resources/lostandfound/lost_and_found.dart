@@ -107,7 +107,6 @@ class _LostAndFoundPageState extends State<LostAndFoundPage>
           ),
         ],
         elevation: 10,
-        backgroundColor: Colors.white,
       ),
     );
   }
@@ -142,7 +141,6 @@ class _LostAndFoundPageState extends State<LostAndFoundPage>
           ),
         ],
         elevation: 10,
-        backgroundColor: Colors.white,
       ),
     );
 
@@ -335,7 +333,6 @@ class _LostAndFoundPageState extends State<LostAndFoundPage>
             fontSize: 32,
           ),
         ),
-        backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
         elevation: 0,
       ),

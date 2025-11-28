@@ -209,9 +209,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
       ),
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
           SafeArea(

@@ -33,7 +33,6 @@ class CommunityDetailPage extends StatelessWidget {
     final imageUrl = community.imageUrl;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Stack(
         children: [
           // Hero image with shimmer effect while loading or if image not found
@@ -93,7 +92,6 @@ class CommunityDetailPage extends StatelessWidget {
                       ],
                     ),
                     child: CircleAvatar(
-                      backgroundColor: Colors.white,
                       child: IconButton(
                         icon: const Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () => Navigator.of(context).pop(),
