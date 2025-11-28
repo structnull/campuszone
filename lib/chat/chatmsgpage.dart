@@ -41,8 +41,8 @@ class _ChatMessagePageState extends State<ChatMessagePage>
   // Monochrome theme colors
   final Color _primaryColor = Colors.black;
   final Color _primaryLightColor = Colors.grey;
-  final Color _secondaryColor = Colors.grey;
-  final Color _backgroundColor = Colors.white;
+  final Color _secondaryColor = Colors.white;
+  final Color _backgroundColor = const Color(0xFFEEE9E3);
   final Color _accentColor = Colors.blue;
 
   @override
@@ -339,7 +339,6 @@ class _ChatMessagePageState extends State<ChatMessagePage>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('You can only delete your own messages'),
-          backgroundColor: Colors.black,
         ),
       );
       return;
@@ -660,8 +659,6 @@ class _ChatMessagePageState extends State<ChatMessagePage>
           surface: _backgroundColor,
         ),
         appBarTheme: AppBarTheme(
-          backgroundColor: _primaryColor,
-          foregroundColor: _backgroundColor,
           elevation: 0,
         ),
         iconTheme: IconThemeData(color: _primaryColor),
@@ -700,7 +697,7 @@ class _ChatMessagePageState extends State<ChatMessagePage>
                       widget.user['name'] ?? 'User',
                       style: const TextStyle(
                         fontSize: 24,
-                        fontFamily: 'Excalifont',
+                        fontFamily: 'PlayfairDisplay',
                         color: Colors.black,
                       ),
                       overflow: TextOverflow.ellipsis,

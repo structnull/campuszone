@@ -21,13 +21,13 @@ class _UploadDataPageState extends State<UploadDataPage> {
   final TextEditingController _descController = TextEditingController();
 
   TextStyle get _headingStyle => const TextStyle(
-        fontFamily: 'Excalifont',
+        fontFamily: 'PlayfairDisplay',
         fontSize: 24,
         fontWeight: FontWeight.bold,
       );
 
   TextStyle get _labelStyle => const TextStyle(
-        fontFamily: 'Excalifont',
+        fontFamily: 'PlayfairDisplay',
         fontSize: 16,
       );
 

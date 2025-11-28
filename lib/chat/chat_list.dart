@@ -58,10 +58,6 @@ class _ChatPageListState extends State<ChatPageList> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
         title: const Text('Chat List'),
-        titleTextStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 32,
-        ),
       ),
       body: isLoading ? buildShimmerGrid() : buildUserGrid(),
     );

@@ -112,10 +112,6 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
   fonts:
-    - family: Excalifont
-      fonts:
-        - asset: assets/fonts/Excalifont/Excalifont.ttf
-
     - family: PlayfairDisplay
       fonts:
         # Variable fonts

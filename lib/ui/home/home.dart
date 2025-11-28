@@ -252,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                                 child: Text(
                                   'Hey ${userName ?? 'User'}!',
                                   style: TextStyle(
-                                    fontFamily: 'Excalifont',
+                                    fontFamily: 'PlayfairDisplay',
                                     fontSize: _calculateNameFontSize(
                                         context, userName ?? 'User'),
                                     color: Colors.black,
@@ -310,7 +310,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: isSmallScreen ? 42 : 52,
-                                fontFamily: 'Excalifont',
+                                fontFamily: 'PlayfairDisplay',
                                 letterSpacing: 1.0,
                               ),
                             ),

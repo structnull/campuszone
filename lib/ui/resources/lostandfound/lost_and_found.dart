@@ -329,7 +329,7 @@ class _LostAndFoundPageState extends State<LostAndFoundPage>
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontFamily: 'Excalifont',
+            fontFamily: 'PlayfairDisplay',
             fontSize: 32,
           ),
         ),

@@ -184,7 +184,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
   ButtonStyle _buttonStyle() {
     return ElevatedButton.styleFrom(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-      textStyle: const TextStyle(fontSize: 24, fontFamily: 'Excalifont'),
+      textStyle: const TextStyle(fontSize: 24, fontFamily: 'PlayfairDisplay'),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -196,7 +196,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
   ButtonStyle _buttonStylered() {
     return ElevatedButton.styleFrom(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-      textStyle: const TextStyle(fontSize: 24, fontFamily: 'Excalifont'),
+      textStyle: const TextStyle(fontSize: 24, fontFamily: 'PlayfairDisplay'),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -225,7 +225,7 @@ class _ProfilePictureState extends State<ProfilePicture> {
                       style: TextStyle(
                           fontSize: 64,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Excalifont'),
+                          fontFamily: 'PlayfairDisplay'),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 30),

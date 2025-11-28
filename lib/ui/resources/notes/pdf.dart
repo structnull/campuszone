@@ -111,7 +111,7 @@ class PdfViewerPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('PDF Viewer'),
         titleTextStyle: TextStyle(
-            fontFamily: 'Excalifont', color: Colors.black, fontSize: 32),
+            fontFamily: 'PlayfairDisplay', color: Colors.black, fontSize: 32),
         actions: [
           IconButton(
             icon: const Icon(Icons.download),

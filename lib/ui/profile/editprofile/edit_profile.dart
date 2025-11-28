@@ -145,7 +145,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         title: const Text(
           'Basic Info',
           style: TextStyle(
-            fontFamily: 'Excalifont',
+            fontFamily: 'PlayfairDisplay',
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
@@ -239,7 +239,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         const Text(
                           'Socials',
                           style: TextStyle(
-                            fontFamily: 'Excalifont',
+                            fontFamily: 'PlayfairDisplay',
                             fontWeight: FontWeight.bold,
                             fontSize: 48,
                           ),
@@ -279,7 +279,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       child: const Text(
                         'Save',
                         style: TextStyle(
-                          fontFamily: 'Excalifont',
+                          fontFamily: 'PlayfairDisplay',
                           fontWeight: FontWeight.bold,
                           fontSize: 32,
                           color: Colors.white,

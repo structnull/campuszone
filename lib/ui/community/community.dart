@@ -34,7 +34,7 @@ class _CommunityPageState extends State<CommunityPage> {
                     child: Text(
                       "Community",
                       style: TextStyle(
-                        fontFamily: 'Excalifont',
+                        fontFamily: 'PlayfairDisplay',
                         fontSize: 50,
                         color: Colors.black,
                       ),
@@ -49,7 +49,7 @@ class _CommunityPageState extends State<CommunityPage> {
                 child: Text(
                   "Popular Communities:",
                   style: TextStyle(
-                    fontFamily: 'Excalifont',
+                    fontFamily: 'PlayfairDisplay',
                     fontSize: 26,
                     color: Colors.black,
                   ),
@@ -76,7 +76,7 @@ class _CommunityPageState extends State<CommunityPage> {
                 child: Text(
                   "Events at: \n$_clgname",
                   style: TextStyle(
-                    fontFamily: 'Excalifont',
+                    fontFamily: 'PlayfairDisplay',
                     fontSize: 26,
                     color: Colors.black,
                   ),

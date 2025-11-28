@@ -324,7 +324,7 @@ class _NotesPageState extends State<NotesPage>
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontFamily: 'Excalifont',
+            fontFamily: 'PlayfairDisplay',
             fontSize: 32,
           ),
         ),

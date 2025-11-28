@@ -50,7 +50,7 @@ class _EventPageState extends State<EventPage> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'Excalifont',
+                      fontFamily: 'PlayfairDisplay',
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -91,7 +91,7 @@ class _EventPageState extends State<EventPage> {
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontWeight: FontWeight.w500,
-                            fontFamily: 'Excalifont',
+                            fontFamily: 'PlayfairDisplay',
                           ),
                         ),
                       ],
@@ -113,7 +113,7 @@ class _EventPageState extends State<EventPage> {
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 18,
-                                fontFamily: 'Excalifont',
+                                fontFamily: 'PlayfairDisplay',
                               ),
                             ),
                           ],
@@ -196,7 +196,7 @@ class EventCard extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16, // Medium-large font size
                 fontWeight: FontWeight.w600,
-                fontFamily: 'Excalifont',
+                fontFamily: 'PlayfairDisplay',
                 color: Colors.black87,
               ),
             ),

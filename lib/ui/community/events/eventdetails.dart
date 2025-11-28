@@ -101,7 +101,7 @@ class EventDetailPage extends StatelessWidget {
                           Text(
                             event['title'] ?? 'Event Name',
                             style: textTheme.headlineMedium?.copyWith(
-                              fontFamily: 'Excalifont',
+                              fontFamily: 'PlayfairDisplay',
                               fontWeight: FontWeight.bold,
                               fontSize: 32,
                             ),
@@ -171,7 +171,7 @@ class EventDetailPage extends StatelessWidget {
                                   Text(
                                     'About this event',
                                     style: textTheme.titleLarge?.copyWith(
-                                      fontFamily: 'Excalifont',
+                                      fontFamily: 'PlayfairDisplay',
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -207,7 +207,7 @@ class EventDetailPage extends StatelessWidget {
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
-                                  fontFamily: 'Excalifont',
+                                  fontFamily: 'PlayfairDisplay',
                                   fontSize: 20,
                                 ),
                               ),
@@ -260,7 +260,7 @@ class EventDetailPage extends StatelessWidget {
         Text(
           title,
           style: textTheme.titleLarge?.copyWith(
-            fontFamily: 'Excalifont',
+            fontFamily: 'PlayfairDisplay',
             fontWeight: FontWeight.bold,
           ),
         ),

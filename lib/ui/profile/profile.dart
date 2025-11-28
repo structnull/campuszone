@@ -293,7 +293,7 @@ class _ProfilePageState extends State<ProfilePage>
                                     style: const TextStyle(
                                       fontSize: 48,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: 'Excalifont',
+                                      fontFamily: 'PlayfairDisplay',
                                       color: Colors.black87,
                                     ),
                                   ),
@@ -448,16 +448,16 @@ class _ProfilePageState extends State<ProfilePage>
             "bio:",
             style: const TextStyle(
               fontSize: 40,
-              fontFamily: 'Excalifont',
+              fontFamily: 'PlayfairDisplay',
               color: Colors.black87,
             ),
           ),
-          // Bio text with "Excalifont" and bigger font
+          // Bio text with "PlayfairDisplay" and bigger font
           Text(
             bio,
             style: const TextStyle(
               fontSize: 32,
-              fontFamily: 'Excalifont',
+              fontFamily: 'PlayfairDisplay',
               color: Colors.black87,
             ),
           ),

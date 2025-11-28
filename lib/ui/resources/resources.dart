@@ -89,7 +89,7 @@ class ResourcesPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 48.0,
                 fontWeight: FontWeight.bold,
-                fontFamily: 'Excalifont',
+                fontFamily: 'PlayfairDisplay',
               ),
             ),
           ),
@@ -128,7 +128,7 @@ class ResourcesPage extends StatelessWidget {
               'Lost and Found Section',
               style: const TextStyle(
                 fontSize: 32.0,
-                fontFamily: 'Excalifont',
+                fontFamily: 'PlayfairDisplay',
                 color: Colors.white,
               ),
             ),
@@ -160,7 +160,7 @@ class ResourcesPage extends StatelessWidget {
               'Notes Section',
               style: const TextStyle(
                 fontSize: 32.0,
-                fontFamily: 'Excalifont',
+                fontFamily: 'PlayfairDisplay',
                 color: Colors.white,
               ),
             ),
@@ -181,7 +181,7 @@ class ResourcesPage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 32.0,
                 fontWeight: FontWeight.bold,
-                fontFamily: 'Excalifont',
+                fontFamily: 'PlayfairDisplay',
               ),
             ),
           ),
@@ -222,7 +222,7 @@ class ResourcesPage extends StatelessWidget {
                       data['name'] as String,
                       style: const TextStyle(
                         fontSize: 24.0,
-                        fontFamily: 'Excalifont',
+                        fontFamily: 'PlayfairDisplay',
                         color: Colors.white,
                       ),
                     ),

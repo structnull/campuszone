@@ -372,7 +372,7 @@ class _NoticeBoardContentState extends State<NoticeBoardContent>
                         fontSize: 48,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
-                        fontFamily: 'Excalifont',
+                        fontFamily: 'PlayfairDisplay',
                       ),
                     ),
                   ),
