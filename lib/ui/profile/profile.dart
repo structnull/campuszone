@@ -59,7 +59,6 @@ class _ProfilePageState extends State<ProfilePage>
 
     _animationController.forward();
 
-    // Listen to global cache buster changes
     globalCacheBuster.addListener(_handleCacheBusterChange);
   }
 
@@ -92,7 +91,6 @@ class _ProfilePageState extends State<ProfilePage>
     if (user == null) return null;
 
     try {
-      // Fetch the user data along with the related socials data
       final response = await supabase
           .from('users')
           .select('*, socials(*)')
@@ -103,7 +101,6 @@ class _ProfilePageState extends State<ProfilePage>
           .from('profilepic')
           .getPublicUrl('${user.id}/profile_picture.jpg');
 
-      // Use the latest cache buster value
       final cacheBuster = globalCacheBuster.value ?? _localCacheBuster;
       if (cacheBuster != null) {
         profilePicUrl = '$profilePicUrl?t=$cacheBuster';
@@ -165,7 +162,6 @@ class _ProfilePageState extends State<ProfilePage>
     }
   }
 
-  /// Helper to launch URLs safely
   Future<void> _launchUrl(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -183,6 +179,8 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   Widget _buildShimmerProfileHeader() {
+    final bg = Theme.of(context).scaffoldBackgroundColor;
+
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.grey[100]!,
@@ -191,23 +189,21 @@ class _ProfilePageState extends State<ProfilePage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(width: 200, height: 30, color: Colors.white),
+            Container(width: 200, height: 30, color: bg),
             const SizedBox(height: 24),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 50,
-                ),
+                CircleAvatar(radius: 50),
                 const SizedBox(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(width: 120, height: 16, color: Colors.white),
+                    Container(width: 120, height: 16, color: bg),
                     const SizedBox(height: 8),
-                    Container(width: 150, height: 16, color: Colors.white),
+                    Container(width: 150, height: 16, color: bg),
                     const SizedBox(height: 8),
-                    Container(width: 100, height: 16, color: Colors.white),
+                    Container(width: 100, height: 16, color: bg),
                   ],
                 ),
               ],
@@ -220,12 +216,13 @@ class _ProfilePageState extends State<ProfilePage>
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldBg = Theme.of(context).scaffoldBackgroundColor;
+
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: scaffoldBg,
       body: SafeArea(
         child: Column(
           children: [
-            // Top row with Settings & Logout icons
             Padding(
               padding: const EdgeInsets.only(top: 8, right: 8),
               child: Row(
@@ -239,7 +236,6 @@ class _ProfilePageState extends State<ProfilePage>
                 ],
               ),
             ),
-            // Expanded area for the rest of the content
             Expanded(
               child: RefreshIndicator(
                 onRefresh: () async {
@@ -256,7 +252,6 @@ class _ProfilePageState extends State<ProfilePage>
                     future: _userDataFuture,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        // Shimmer placeholder
                         return SizedBox(
                           height: MediaQuery.of(context).size.height - 100,
                           child: _buildShimmerProfileHeader(),
@@ -283,7 +278,6 @@ class _ProfilePageState extends State<ProfilePage>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Hello Username
                               SlideTransition(
                                 position: _slideAnimation,
                                 child: ScaleTransition(
@@ -300,10 +294,8 @@ class _ProfilePageState extends State<ProfilePage>
                                 ),
                               ),
                               const SizedBox(height: 24),
-                              // Profile Picture and details
                               _buildProfileHeader(userData),
                               const SizedBox(height: 24),
-                              // Social Icons (only rendered once)
                               _buildSocialIcons(userData),
                               const SizedBox(height: 200),
                             ],
@@ -332,11 +324,9 @@ class _ProfilePageState extends State<ProfilePage>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Row with profile picture on the left and name/college id on the right
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Profile Picture
               ScaleTransition(
                 scale: _scaleAnimation,
                 child: GestureDetector(
@@ -399,7 +389,8 @@ class _ProfilePageState extends State<ProfilePage>
                               child: Container(
                                 width: 200,
                                 height: 200,
-                                color: Colors.white,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                               ),
                             );
                           },
@@ -417,7 +408,6 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ),
               const SizedBox(width: 50),
-              // Name and college id centered with respect to the picture
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -444,15 +434,14 @@ class _ProfilePageState extends State<ProfilePage>
             ],
           ),
           const SizedBox(height: 20),
-          Text(
+          const Text(
             "bio:",
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 40,
               fontFamily: 'PlayfairDisplay',
               color: Colors.black87,
             ),
           ),
-          // Bio text with "PlayfairDisplay" and bigger font
           Text(
             bio,
             style: const TextStyle(
@@ -462,7 +451,6 @@ class _ProfilePageState extends State<ProfilePage>
             ),
           ),
           const SizedBox(height: 20),
-          // Edit Profile Button with a larger height and font size
           Center(
             child: SizedBox(
               height: 50,
@@ -511,19 +499,18 @@ class _ProfilePageState extends State<ProfilePage>
             ),
           ),
           const SizedBox(height: 20),
-          // Removed duplicate social icons from here.
         ],
       ),
     );
   }
 
   Widget _buildSocialIcons(Map<String, dynamic> userData) {
-    // Access socials data from the joined table.
     final socials = userData['socials'];
-    // For one-to-many, you might need: final socials = (userData['socials'] as List).first;
     final linkedin = socials?['linkedin'];
     final twitter = socials?['twitter'];
     final instagram = socials?['instagram'];
+
+    final bg = Theme.of(context).scaffoldBackgroundColor;
 
     List<Widget> socialIcons = [];
 
@@ -532,7 +519,7 @@ class _ProfilePageState extends State<ProfilePage>
         Container(
           margin: const EdgeInsets.only(right: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: bg,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
@@ -555,7 +542,7 @@ class _ProfilePageState extends State<ProfilePage>
         Container(
           margin: const EdgeInsets.only(right: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: bg,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
@@ -578,7 +565,7 @@ class _ProfilePageState extends State<ProfilePage>
         Container(
           margin: const EdgeInsets.only(right: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: bg,
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
@@ -596,9 +583,7 @@ class _ProfilePageState extends State<ProfilePage>
       );
     }
 
-    if (socialIcons.isEmpty) {
-      return const SizedBox.shrink();
-    }
+    if (socialIcons.isEmpty) return const SizedBox.shrink();
 
     return Row(children: socialIcons);
   }
