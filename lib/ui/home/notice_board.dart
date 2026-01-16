@@ -211,7 +211,7 @@ class _NoticeCardState extends State<NoticeCard>
                     Expanded(
                       child: Text(
                         widget.notice.title,
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -229,7 +229,7 @@ class _NoticeCardState extends State<NoticeCard>
                       ),
                       child: Text(
                         formatDate(widget.notice.createdAt),
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
                           fontSize: 12,
                           color: Colors.white70,
                         ),
@@ -248,7 +248,7 @@ class _NoticeCardState extends State<NoticeCard>
                     ),
                     child: Text(
                       widget.notice.description,
-                      style: GoogleFonts.roboto(
+                      style: TextStyle(
                         fontSize: 16,
                         color: Colors.white70,
                         height: 1.5,
@@ -391,7 +391,7 @@ class _NoticeBoardContentState extends State<NoticeBoardContent>
                       ),
                       child: Text(
                         '${_notices.length} Notice${_notices.length != 1 ? 's' : ''} Posted',
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: Colors.white,
@@ -422,7 +422,7 @@ class _NoticeBoardContentState extends State<NoticeBoardContent>
                           const SizedBox(height: 16.0),
                           Text(
                             'No notices available',
-                            style: GoogleFonts.roboto(
+                            style: TextStyle(
                               fontSize: 18,
                               color: Colors.grey[500],
                             ),

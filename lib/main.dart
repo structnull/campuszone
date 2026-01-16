@@ -31,8 +31,9 @@ class MyApp extends StatelessWidget {
       title: 'Campuszone',
 
       theme: ThemeData(
-        useMaterial3: true,
+        useMaterial3: false,
         fontFamily: "Roboto",
+	    colorScheme: ColorScheme.fromSeed(seedColor: Colors.red), // to change
         scaffoldBackgroundColor: const Color(0xFFEEE9E3),
         appBarTheme: const AppBarTheme(
           elevation: 0,

@@ -298,7 +298,7 @@ class CommunityDetailPage extends StatelessWidget {
                               icon: const Icon(Icons.link_rounded),
                               label: Text(
                                 "${community.name} Website",
-                                style: GoogleFonts.roboto(
+                                style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 18,
                                 ),

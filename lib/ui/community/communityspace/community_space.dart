@@ -373,7 +373,7 @@ class _CommunityCard extends StatelessWidget {
                           children: [
                             Text(
                               community.name,
-                              style: GoogleFonts.roboto(
+                              style: TextStyle(
                                 fontSize: isSmallScreen ? 18 : 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
@@ -387,7 +387,7 @@ class _CommunityCard extends StatelessWidget {
                                 padding: const EdgeInsets.all(8),
                                 child: Text(
                                   _getShortDescription(community.description),
-                                  style: GoogleFonts.roboto(
+                                  style: TextStyle(
                                     fontSize: isSmallScreen ? 10 : 14,
                                     color: Colors.black54,
                                     height: 1.2,

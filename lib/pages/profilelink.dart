@@ -1,7 +1,6 @@
 import 'package:campuszone/chat/chatmsgpage.dart';
 import 'package:campuszone/globals.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:shimmer/shimmer.dart';
@@ -103,7 +102,7 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
         elevation: 0,
         title: Text(
           'Profile',
-          style: GoogleFonts.roboto(
+          style: TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -189,7 +188,7 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
               // Full Name.
               Text(
                 _userData?['name'] ?? 'User',
-                style: GoogleFonts.roboto(
+                style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -199,7 +198,7 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
               // College ID.
               Text(
                 '@${_userData?['collegeid'] ?? 'College ID'}',
-                style: GoogleFonts.roboto(
+                style: TextStyle(
                   fontSize: 18,
                   color: Colors.white70,
                 ),
@@ -216,7 +215,7 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
                     _userData?['created_at'] != null
                         ? 'Joined ${timeago.format(DateTime.parse(_userData!['created_at']))}'
                         : 'Joined Recently',
-                    style: GoogleFonts.roboto(
+                    style: TextStyle(
                       fontSize: 16,
                       color: Colors.white70,
                     ),
@@ -245,7 +244,7 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
                   },
                   child: Text(
                     'Message',
-                    style: GoogleFonts.roboto(
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
@@ -261,7 +260,7 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'About:',
-                  style: GoogleFonts.roboto(
+                  style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -271,7 +270,7 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
               const SizedBox(height: 12),
               Text(
                 _userData?['bio'] ?? 'No bio provided.',
-                style: GoogleFonts.roboto(
+                style: TextStyle(
                   fontSize: 18,
                   color: Colors.white70,
                   height: 1.6,
@@ -290,7 +289,7 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Socials',
-                    style: GoogleFonts.roboto(
+                    style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
