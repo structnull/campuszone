@@ -1,167 +1,102 @@
+import 'package:campuszone/core/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Centralized text styles using Google Fonts
-///
-/// Typography System:
-/// - **Headings**: Manrope (modern, geometric sans-serif)
-/// - **Body Text**: Inter (highly readable UI font)
-///
-/// Usage:
-/// ```dart
-/// Text('Welcome', style: AppTextStyles.displayMedium)
-/// Text('Description', style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary))
-/// ```
 abstract class AppTextStyles {
-  // ============================================
-  // DISPLAY STYLES (Manrope - for headings)
-  // ============================================
-
-  /// 48px - Hero headings, splash screens
+  // Display
   static TextStyle get displayLarge => GoogleFonts.manrope(
-        fontSize: 48.0,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -1.0,
-      );
-
-  /// 40px - Page titles, welcome messages
+      fontSize: 48.0,
+      fontWeight: FontWeight.w700,
+      letterSpacing: -1.0,
+      color: AppColors.textPrimary);
   static TextStyle get displayMedium => GoogleFonts.manrope(
-        fontSize: 40.0,
-        fontWeight: FontWeight.w600,
-        letterSpacing: -0.5,
-      );
-
-  /// 32px - Section headers, card titles
+      fontSize: 40.0,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -0.5,
+      color: AppColors.textPrimary);
   static TextStyle get displaySmall => GoogleFonts.manrope(
-        fontSize: 32.0,
-        fontWeight: FontWeight.w700,
-      );
+      fontSize: 32.0,
+      fontWeight: FontWeight.w700,
+      color: AppColors.textPrimary);
 
-  // ============================================
-  // HEADLINE STYLES (Manrope)
-  // ============================================
-
-  /// 28px - Large headlines
+  // Headline
   static TextStyle get headlineLarge => GoogleFonts.manrope(
-        fontSize: 28.0,
-        fontWeight: FontWeight.w600,
-      );
-
-  /// 24px - AppBar titles, modal headers
+      fontSize: 28.0,
+      fontWeight: FontWeight.w600,
+      color: AppColors.textPrimary);
   static TextStyle get headlineMedium => GoogleFonts.manrope(
-        fontSize: 24.0,
-        fontWeight: FontWeight.w600,
-      );
-
-  /// 20px - Card headers, list titles
+      fontSize: 24.0,
+      fontWeight: FontWeight.w600,
+      color: AppColors.textPrimary);
   static TextStyle get headlineSmall => GoogleFonts.manrope(
-        fontSize: 20.0,
-        fontWeight: FontWeight.w600,
-      );
+      fontSize: 20.0,
+      fontWeight: FontWeight.w600,
+      color: AppColors.textPrimary);
 
-  // ============================================
-  // TITLE STYLES (Manrope)
-  // ============================================
-
-  /// 18px - Subsection titles
+  // Title
   static TextStyle get titleLarge => GoogleFonts.manrope(
-        fontSize: 18.0,
-        fontWeight: FontWeight.w600,
-      );
-
-  /// 16px - List item titles, navigation
+      fontSize: 18.0,
+      fontWeight: FontWeight.w600,
+      color: AppColors.textPrimary);
   static TextStyle get titleMedium => GoogleFonts.manrope(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w500,
-      );
-
-  /// 14px - Small titles, labels
+      fontSize: 16.0,
+      fontWeight: FontWeight.w500,
+      color: AppColors.textPrimary);
   static TextStyle get titleSmall => GoogleFonts.manrope(
-        fontSize: 14.0,
-        fontWeight: FontWeight.w500,
-      );
+      fontSize: 14.0,
+      fontWeight: FontWeight.w500,
+      color: AppColors.textPrimary);
 
-  // ============================================
-  // BODY STYLES (Inter - for readable text)
-  // ============================================
-
-  /// 16px - Primary body text
+  // Body
   static TextStyle get bodyLarge => GoogleFonts.inter(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w400,
-        height: 1.5,
-      );
-
-  /// 14px - Secondary body text, descriptions
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      height: 1.5,
+      color: AppColors.textPrimary);
   static TextStyle get bodyMedium => GoogleFonts.inter(
-        fontSize: 14.0,
-        fontWeight: FontWeight.w400,
-        height: 1.5,
-      );
-
-  /// 12px - Captions, helper text
+      fontSize: 14.0,
+      fontWeight: FontWeight.w400,
+      height: 1.5,
+      color: AppColors.textPrimary);
   static TextStyle get bodySmall => GoogleFonts.inter(
-        fontSize: 12.0,
-        fontWeight: FontWeight.w400,
-        height: 1.4,
-      );
+      fontSize: 12.0,
+      fontWeight: FontWeight.w400,
+      height: 1.4,
+      color: AppColors.textPrimary);
 
-  // ============================================
-  // LABEL STYLES (Inter)
-  // ============================================
-
-  /// 14px - Form labels, chip text
+  // Label
   static TextStyle get labelLarge => GoogleFonts.inter(
-        fontSize: 14.0,
-        fontWeight: FontWeight.w500,
-      );
-
-  /// 12px - Secondary labels
+      fontSize: 14.0,
+      fontWeight: FontWeight.w500,
+      color: AppColors.textPrimary);
   static TextStyle get labelMedium => GoogleFonts.inter(
-        fontSize: 12.0,
-        fontWeight: FontWeight.w500,
-      );
-
-  /// 11px - Tiny labels, timestamps
+      fontSize: 12.0,
+      fontWeight: FontWeight.w500,
+      color: AppColors.textPrimary);
   static TextStyle get labelSmall => GoogleFonts.inter(
-        fontSize: 11.0,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 0.5,
-      );
+      fontSize: 11.0,
+      fontWeight: FontWeight.w500,
+      letterSpacing: 0.5,
+      color: AppColors.textPrimary);
 
-  // ============================================
-  // BUTTON STYLES (Manrope - bold, impactful)
-  // ============================================
-
-  /// 18px - Primary button text
+  // Button
   static TextStyle get buttonLarge => GoogleFonts.manrope(
-        fontSize: 18.0,
-        fontWeight: FontWeight.w600,
-      );
-
-  /// 16px - Standard button text
+      fontSize: 18.0, fontWeight: FontWeight.w600, color: AppColors.white);
   static TextStyle get buttonMedium => GoogleFonts.manrope(
-        fontSize: 16.0,
-        fontWeight: FontWeight.w600,
-      );
-
-  /// 14px - Small button text
+      fontSize: 16.0, fontWeight: FontWeight.w600, color: AppColors.white);
   static TextStyle get buttonSmall => GoogleFonts.manrope(
-        fontSize: 14.0,
-        fontWeight: FontWeight.w600,
-      );
+      fontSize: 14.0, fontWeight: FontWeight.w600, color: AppColors.white);
 
-  // ============================================
-  // UTILITY METHODS
-  // ============================================
+  // Variants
+  static TextStyle get caption =>
+      bodySmall.copyWith(color: AppColors.textSecondary);
+  static TextStyle get captionBold => bodySmall.copyWith(
+      fontWeight: FontWeight.bold, color: AppColors.textSecondary);
+  static TextStyle get bodyLargeBold =>
+      bodyLarge.copyWith(fontWeight: FontWeight.bold);
+  static TextStyle get bodyMediumBold =>
+      bodyMedium.copyWith(fontWeight: FontWeight.bold);
 
-  /// Get Manrope TextTheme for ThemeData
-  static TextTheme get manropeTextTheme => GoogleFonts.manropeTextTheme();
-
-  /// Get Inter TextTheme for ThemeData
-  static TextTheme get interTextTheme => GoogleFonts.interTextTheme();
-
-  /// Build a complete TextTheme with Manrope headings and Inter body
   static TextTheme get appTextTheme => TextTheme(
         displayLarge: displayLarge,
         displayMedium: displayMedium,
