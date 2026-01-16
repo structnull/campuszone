@@ -55,14 +55,14 @@ abstract class SupabaseService {
   static SupabaseQueryBuilder get usersTable => from('users');
   static SupabaseQueryBuilder get notesTable => from('notes');
   static SupabaseQueryBuilder get lostAndFoundTable => from('lostandfound');
-  static SupabaseQueryBuilder get communitiesTable => from('communities');
+  static SupabaseQueryBuilder get communitiesTable => from('community');
   static SupabaseQueryBuilder get eventsTable => from('events');
   static SupabaseQueryBuilder get messagesTable => from('messages');
   static SupabaseQueryBuilder get socialsTable => from('socials');
-  static SupabaseQueryBuilder get usefulLinksTable => from('usefullinks');
-  static SupabaseQueryBuilder get notesCommentsTable => from('notes_comments');
+  static SupabaseQueryBuilder get usefulLinksTable => from('useful_links');
+  static SupabaseQueryBuilder get notesCommentsTable => from('ncomments');
   static SupabaseQueryBuilder get lostAndFoundCommentsTable =>
-      from('lostandfound_comments');
+      from('lafcomments');
 
   // Storage helpers
   static String getPublicUrl(String bucket, String path) {

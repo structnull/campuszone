@@ -27,10 +27,19 @@ class UserModel {
         bio: json['bio'] as String?,
         profilePicPath: json['profile_pic_path'] as String?,
         createdAt: DateTime.parse(json['created_at'] as String),
-        socials: json['socials'] != null
-            ? SocialsModel.fromJson(json['socials'])
-            : null,
+        socials: _parseSocials(json['socials']),
       );
+
+  static SocialsModel? _parseSocials(dynamic data) {
+    if (data == null) return null;
+    if (data is List && data.isNotEmpty) {
+      return SocialsModel.fromJson(data.first as Map<String, dynamic>);
+    }
+    if (data is Map<String, dynamic>) {
+      return SocialsModel.fromJson(data);
+    }
+    return null;
+  }
 
   Map<String, dynamic> toJson() => {
         'id': id,

@@ -12,7 +12,7 @@ class SupabaseCommunityDatasource implements CommunityDatasource {
   Future<List<CommunityModel>> getAllCommunities() async {
     try {
       final response = await SupabaseService.client
-          .from('communities') // Assuming table name is 'communities'
+          .from('community')
           .select()
           .order('name', ascending: true);
       return (response as List)

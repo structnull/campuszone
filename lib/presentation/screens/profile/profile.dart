@@ -58,7 +58,10 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   void _fetchUserData() {
-    setState(() => _userDataFuture = _getUserData());
+    final future = _getUserData();
+    setState(() {
+      _userDataFuture = future;
+    });
   }
 
   Future<Map<String, dynamic>?> _getUserData() async {
@@ -386,7 +389,15 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   Widget _buildSocialIcons(Map<String, dynamic> userData) {
-    final socials = userData['socials'];
+    dynamic socialsData = userData['socials'];
+    Map<String, dynamic>? socials;
+
+    if (socialsData is List && socialsData.isNotEmpty) {
+      socials = socialsData.first as Map<String, dynamic>;
+    } else if (socialsData is Map<String, dynamic>) {
+      socials = socialsData;
+    }
+
     final linkedin = socials?['linkedin'];
     final twitter = socials?['twitter'];
     final instagram = socials?['instagram'];

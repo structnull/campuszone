@@ -13,7 +13,7 @@ class SupabaseEventDatasource implements EventDatasource {
     try {
       final response = await SupabaseService.eventsTable
           .select()
-          .order('event_date', ascending: true);
+          .order('created_at', ascending: true);
       return (response as List)
           .map((json) => EventModel.fromJson(json))
           .toList();

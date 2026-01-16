@@ -22,7 +22,13 @@ class NoteModel {
   });
 
   factory NoteModel.fromJson(Map<String, dynamic> json) {
-    final user = json['user'] as Map<String, dynamic>?;
+    dynamic userData = json['user'];
+    Map<String, dynamic>? user;
+    if (userData is List && userData.isNotEmpty) {
+      user = userData.first as Map<String, dynamic>;
+    } else if (userData is Map<String, dynamic>) {
+      user = userData;
+    }
     return NoteModel(
       id: json['id'] as String,
       userId: json['user_id'] as String,

@@ -19,8 +19,13 @@ class LostAndFoundModel {
 
   factory LostAndFoundModel.fromJson(Map<String, dynamic> json) {
     // Handle nested user data if available (Supabase join)
-    final user = json['users'] as Map<String, dynamic>? ??
-        json['user'] as Map<String, dynamic>?;
+    dynamic userData = json['users'] ?? json['user'];
+    Map<String, dynamic>? user;
+    if (userData is List && userData.isNotEmpty) {
+      user = userData.first as Map<String, dynamic>;
+    } else if (userData is Map<String, dynamic>) {
+      user = userData;
+    }
 
     return LostAndFoundModel(
       id: json['item_id'] ?? '',

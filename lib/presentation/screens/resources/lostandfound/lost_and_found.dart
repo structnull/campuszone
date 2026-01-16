@@ -4,6 +4,7 @@ import 'package:campuszone/data/repositories/repositories.dart';
 import 'package:campuszone/globals.dart' as globals;
 import 'package:campuszone/presentation/presentation.dart';
 import 'package:campuszone/presentation/screens/resources/lostandfound/upload_data.dart';
+import 'package:campuszone/presentation/screens/resources/comments/comments.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:line_icons/line_icons.dart';
@@ -121,6 +122,15 @@ class _LostAndFoundPageState extends State<LostAndFoundPage>
                                 item: item,
                                 isCurrentUser: item.userId == currentUserId,
                                 onDelete: () => _deleteItem(item),
+                                onComments: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => CommentsPage(
+                                      entityId: item.id,
+                                      entityType: 'lostandfound',
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -137,11 +147,13 @@ class _ItemCard extends StatelessWidget {
   final LostAndFoundModel item;
   final bool isCurrentUser;
   final VoidCallback onDelete;
+  final VoidCallback onComments;
 
   const _ItemCard({
     required this.item,
     required this.isCurrentUser,
     required this.onDelete,
+    required this.onComments,
   });
 
   @override
@@ -203,6 +215,21 @@ class _ItemCard extends StatelessWidget {
                   SizedBox(height: 4),
                   Text(item.description, style: AppTextStyles.bodyMedium),
                 ],
+                SizedBox(height: AppSpacing.sm),
+                Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton.icon(
+                      onPressed: onComments,
+                      icon: Icon(LineIcons.comment, size: 20),
+                      label: Text('Comments'),
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppColors.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
