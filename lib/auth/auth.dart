@@ -1,4 +1,5 @@
 import 'package:campuszone/auth/login_page.dart';
+import 'package:campuszone/core/core.dart';
 import 'package:campuszone/pages/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -8,11 +9,9 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final supabase = Supabase.instance.client;
-
     return Scaffold(
       body: StreamBuilder<AuthState>(
-        stream: supabase.auth.onAuthStateChange,
+        stream: SupabaseService.authStateChanges,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             final session = snapshot.data?.session;
@@ -22,7 +21,9 @@ class AuthPage extends StatelessWidget {
               return LoginPage();
             }
           }
-          return const Center(child: CircularProgressIndicator());
+          return Center(
+            child: CircularProgressIndicator(color: AppColors.primary),
+          );
         },
       ),
     );

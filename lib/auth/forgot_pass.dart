@@ -1,6 +1,6 @@
+import 'package:campuszone/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ForgotPassPage extends StatefulWidget {
   const ForgotPassPage({super.key});
@@ -12,62 +12,51 @@ class ForgotPassPage extends StatefulWidget {
 class _ForgotPassPageState extends State<ForgotPassPage> {
   final _emailController = TextEditingController();
 
-  // Reset password function
   Future<void> _passreset() async {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter an email address')),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(AppStrings.enterEmail)));
       return;
     }
 
     try {
-      final supabase = Supabase.instance.client;
-      await supabase.auth.resetPasswordForEmail(
-        email,
-      );
+      await SupabaseService.resetPassword(email);
 
-      // Show success message after sending the email
       if (!mounted) return;
       showDialog(
         context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Success'),
-            content: const Text(
-                'A password reset email has been sent to the provided email address. Please check your inbox.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close dialog
-                  Navigator.of(context).pop(); // Go back to login page
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
+        builder: (context) => AlertDialog(
+          title: Text('Success', style: AppTextStyles.headlineSmall),
+          content: Text(AppStrings.passwordResetSent,
+              style: AppTextStyles.bodyMedium),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              child: Text(AppStrings.ok),
+            ),
+          ],
+        ),
       );
     } catch (e) {
-      // Show error dialog for any issues
+      AppLogger.error('Password reset error', e);
       if (mounted) {
         showDialog(
           context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Error'),
-              content: Text(e.toString()),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
+          builder: (context) => AlertDialog(
+            title: Text(AppStrings.error, style: AppTextStyles.headlineSmall),
+            content: Text(AppStrings.somethingWentWrong,
+                style: AppTextStyles.bodyMedium),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(AppStrings.ok),
+              ),
+            ],
+          ),
         );
       }
     }
@@ -77,73 +66,50 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        elevation: AppElevation.none,
+        iconTheme: IconThemeData(color: AppColors.primary),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title
             Padding(
-              padding: const EdgeInsets.only(top: 40.0),
-              child: const Text(
-                "Forgot Password?",
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
+              padding: EdgeInsets.only(top: AppSpacing.huge),
+              child: Text(AppStrings.forgotPassword,
+                  style: AppTextStyles.displaySmall
+                      .copyWith(color: AppColors.textPrimary)),
             ),
-            const SizedBox(height: 20),
-
-            // Info Text
-            const Text(
-              "Please enter the registered email associated with your account",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 30),
-
-            // Email TextFormField
+            SizedBox(height: AppSpacing.xl),
+            Text(
+                'Please enter the registered email associated with your account',
+                style: AppTextStyles.bodyLarge
+                    .copyWith(color: AppColors.textPrimary)),
+            SizedBox(height: AppSpacing.huge),
             TextFormField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                labelText: 'Email',
+                labelText: AppStrings.email,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                    borderRadius: AppRadius.featureCardRadius),
                 prefixIcon: const Icon(LineIcons.user),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: const BorderSide(color: Colors.grey),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: const BorderSide(color: Colors.black, width: 2),
-                ),
               ),
             ),
-            const SizedBox(height: 20),
-
-            // Reset Password Button
-            ElevatedButton(
-              onPressed: _passreset,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+            SizedBox(height: AppSpacing.xl),
+            SizedBox(
+              width: double.infinity,
+              height: AppDimensions.buttonHeight,
+              child: ElevatedButton(
+                onPressed: _passreset,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: AppRadius.featureCardRadius),
                 ),
-                padding: const EdgeInsets.all(20),
-              ),
-              child: const Text(
-                "Reset Password",
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                child: Text(AppStrings.resetPassword,
+                    style: AppTextStyles.buttonMedium
+                        .copyWith(color: AppColors.textWhite)),
               ),
             ),
           ],

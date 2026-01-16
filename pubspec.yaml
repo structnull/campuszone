@@ -57,6 +57,7 @@ dependencies:
   flutter_launcher_icons: ^0.14.3
   carousel_slider: ^5.0.0
   http: ^1.6.0
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -110,23 +111,13 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
-  fonts:
-    - family: PlayfairDisplay
-      fonts:
-        # Variable fonts
-        - asset: assets/fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf
-        - asset: assets/fonts/Playfair_Display/PlayfairDisplay-Italic-VariableFont_wght.ttf
-          style: italic
-
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/Roboto/Roboto-VariableFont_wdth,wght.ttf
-        - asset: assets/fonts/Roboto/Roboto-Italic-VariableFont_wdth,wght.ttf
-          style: italic
+  # Note: Using google_fonts package instead of bundled fonts
+  # This reduces APK size and provides dynamic font loading
+  
   assets:
     - assets/profile.png
     - assets/icon/icon.png
-    - .env
+    # Note: .env removed from assets for security (was exposing secrets in APK)
 
 flutter_launcher_icons:
   android: true

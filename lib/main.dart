@@ -1,52 +1,46 @@
 import 'package:campuszone/auth/auth.dart';
+import 'package:campuszone/core/core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+/// Application entry point
+///
+/// Initializes Supabase and runs the app with centralized theme
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load environment variables
+  // TODO: For production, use platform-specific secure storage instead
   await dotenv.load(fileName: ".env");
+
+  // Initialize Supabase
   await Supabase.initialize(
     url: dotenv.get('SUPABASE_URL'),
     anonKey: dotenv.get('SUPABASE_ANON_KEY'),
   );
-  runApp(const MyApp());
+
+  // Set system UI style
+  SystemChrome.setSystemUIOverlayStyle(AppTheme.systemUiStyle);
+
+  runApp(const CampusZoneApp());
 }
 
-// Global Supabase client instance
-final supabase = Supabase.instance.client;
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+/// Root application widget
+///
+/// Uses centralized [AppTheme] for consistent styling across the app
+class CampusZoneApp extends StatelessWidget {
+  const CampusZoneApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white,
-    ));
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Campuszone',
+      title: AppStrings.appName,
 
-      theme: ThemeData(
-        useMaterial3: false,
-        fontFamily: "Roboto",
-	    colorScheme: ColorScheme.fromSeed(seedColor: Colors.red), // to change
-        scaffoldBackgroundColor: const Color(0xFFEEE9E3),
-        appBarTheme: const AppBarTheme(
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-
-          titleTextStyle: TextStyle(
-            fontFamily: 'PlayfairDisplay',
-            fontSize: 24,
-            color: Colors.black,
-          ),
-        ),
-      ),
+      // Use centralized theme from core/constants/themes.dart
+      theme: AppTheme.lightTheme,
 
       home: const AuthPage(),
     );

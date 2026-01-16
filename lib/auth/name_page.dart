@@ -1,3 +1,4 @@
+import 'package:campuszone/core/core.dart';
 import 'package:flutter/material.dart';
 
 class NamePage extends StatefulWidget {
@@ -20,63 +21,49 @@ class _NamePageState extends State<NamePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        elevation: AppElevation.none,
+        iconTheme: IconThemeData(color: AppColors.primary),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(AppSpacing.xl),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'What is your name?',
-              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
+            Text('What is your name?',
+                style: AppTextStyles.displayLarge
+                    .copyWith(color: AppColors.textPrimary)),
+            SizedBox(height: AppSpacing.xl),
             TextField(
               controller: _nameController,
               decoration: InputDecoration(
                 labelText: 'Name',
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
+                    borderRadius: AppRadius.featureCardRadius),
                 prefixIcon: const Icon(Icons.person),
               ),
             ),
-            const SizedBox(height: 20),
-            // Submit Button
+            SizedBox(height: AppSpacing.xl),
             SizedBox(
               width: double.infinity,
+              height: AppDimensions.buttonHeight,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 15.0,
-                    horizontal: 20.0,
-                  ),
+                  backgroundColor: AppColors.primary,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
+                      borderRadius: AppRadius.fullRadius),
                 ),
                 onPressed: () {
                   final name = _nameController.text.trim();
                   if (name.isNotEmpty) {
-                    Navigator.pop(
-                        context, name); // Return name to the previous screen
+                    Navigator.pop(context, name);
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please enter your name')),
-                    );
+                        SnackBar(content: Text('Please enter your name')));
                   }
                 },
-                child: const Text(
-                  'Continue',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                child: Text('Continue',
+                    style: AppTextStyles.buttonMedium
+                        .copyWith(color: AppColors.textWhite)),
               ),
             ),
           ],

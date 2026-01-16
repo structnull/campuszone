@@ -1,4 +1,5 @@
 import 'package:campuszone/auth/name_page.dart';
+import 'package:campuszone/core/core.dart';
 import 'package:campuszone/pages/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
@@ -20,10 +21,8 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _isLoading = false;
   bool _obscurePassword = true;
 
-  // Function to add user to Supabase
   Future<void> _addUserToSupabase(String uid, String name) async {
-    final supabase = Supabase.instance.client;
-    await supabase.from('users').insert({
+    await SupabaseService.usersTable.insert({
       'id': uid,
       'name': name,
       'email': _emailController.text.trim().toLowerCase(),
@@ -32,7 +31,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  // Registration Logic
   Future<void> _register() async {
     final name = await Navigator.push(
       context,
@@ -41,9 +39,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (name == null || name.isEmpty) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Name is required to register')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(AppStrings.nameRequired)));
       }
       return;
     }
@@ -53,22 +50,20 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() => _isLoading = true);
 
     try {
-      final supabase = Supabase.instance.client;
-      final response = await supabase.auth.signUp(
+      final response = await SupabaseService.signUp(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
 
       if (response.user == null) {
-        throw AuthException('Registration failed.');
+        throw AuthException(AppStrings.registrationFailed);
       }
 
       await _addUserToSupabase(response.user!.id, name);
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Registration successful!')),
-      );
+          SnackBar(content: Text(AppStrings.registrationSuccessful)));
 
       if (!mounted) return;
       Navigator.pushReplacement(
@@ -77,9 +72,8 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     } on AuthException catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message)),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -91,7 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.xl),
             child: Form(
               key: _formKey,
               child: Column(
@@ -99,111 +93,81 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Center(
-                    child: Icon(
-                      LineIcons.userAstronaut,
-                      size: 120,
-                      color: Colors.black,
-                    ),
+                    child: Icon(LineIcons.userAstronaut,
+                        size: AppIconSize.heroLarge, color: AppColors.primary),
                   ),
-                  const SizedBox(height: 60),
-                  const Text(
-                    "Register as a new user!",
-                    style: TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Please fill in the details to continue",
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
-                  ),
-                  const SizedBox(height: 60),
-
-                  // Email Field
+                  SizedBox(height: AppSpacing.sectionLarge),
+                  Text(AppStrings.registerTitle,
+                      style: AppTextStyles.displayLarge
+                          .copyWith(color: AppColors.textPrimary)),
+                  SizedBox(height: AppSpacing.sm),
+                  Text(AppStrings.registerSubtitle,
+                      style: AppTextStyles.bodyLarge
+                          .copyWith(color: AppColors.textSecondary)),
+                  SizedBox(height: AppSpacing.sectionLarge),
                   TextFormField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      labelText: 'Email',
+                      labelText: AppStrings.email,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: AppRadius.featureCardRadius),
                       prefixIcon: const Icon(LineIcons.user),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        return 'Enter a valid email';
-                      }
-                      return null;
-                    },
+                    validator: Validators.email,
                   ),
-                  const SizedBox(height: 10),
-
-                  // College ID Field
+                  SizedBox(height: AppSpacing.sm),
                   TextFormField(
                     controller: _collegeIdController,
                     decoration: InputDecoration(
-                      labelText: 'College ID',
+                      labelText: AppStrings.collegeId,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: AppRadius.featureCardRadius),
                       prefixIcon: const Icon(LineIcons.identificationBadge),
                     ),
-                    validator: (value) => value == null || value.isEmpty
-                        ? 'Please enter your College ID'
-                        : null,
+                    validator:
+                        Validators.requiredWith(AppStrings.enterCollegeId),
                   ),
-                  const SizedBox(height: 10),
-
-                  // Password Field
+                  SizedBox(height: AppSpacing.sm),
                   TextFormField(
                     controller: _passwordController,
                     obscureText: _obscurePassword,
                     decoration: InputDecoration(
-                      labelText: 'Password',
+                      labelText: AppStrings.password,
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: AppRadius.featureCardRadius),
                       prefixIcon: const Icon(LineIcons.lock),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _obscurePassword
                               ? LineIcons.eyeAlt
                               : LineIcons.eyeSlashAlt,
-                          color: Colors.black,
+                          color: AppColors.primary,
                         ),
                         onPressed: () => setState(
                             () => _obscurePassword = !_obscurePassword),
                       ),
                     ),
-                    validator: (value) => value != null && value.length < 6
-                        ? 'Password must be at least 6 characters'
-                        : null,
+                    validator: Validators.password,
                   ),
-                  const SizedBox(height: 60),
-
-                  // Register Button
+                  SizedBox(height: AppSpacing.sectionLarge),
                   SizedBox(
                     width: double.infinity,
+                    height: AppDimensions.buttonHeight,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15.0, horizontal: 20.0),
+                        backgroundColor: AppColors.primary,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
+                            borderRadius: AppRadius.fullRadius),
                       ),
                       onPressed: _isLoading ? null : _register,
                       child: _isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text(
-                              'Register',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                          ? CircularProgressIndicator(
+                              color: AppColors.textWhite,
+                              strokeWidth: AppDimensions.loaderStrokeWidth)
+                          : Text(AppStrings.register,
+                              style: AppTextStyles.buttonMedium
+                                  .copyWith(color: AppColors.textWhite)),
                     ),
                   ),
                 ],

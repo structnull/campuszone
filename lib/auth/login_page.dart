@@ -1,9 +1,9 @@
 import 'package:campuszone/auth/forgot_pass.dart';
 import 'package:campuszone/auth/register_page.dart';
+import 'package:campuszone/core/core.dart';
 import 'package:campuszone/pages/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 350),
+      duration: AppAnimations.pageTransition,
       vsync: this,
     );
     _animation = Tween<double>(begin: 0.92, end: 1.0).animate(_controller);
@@ -35,12 +35,10 @@ class _LoginPageState extends State<LoginPage>
   }
 
   Future<String?> _getEmailFromCollegeId(String collegeId) async {
-    final response = await Supabase.instance.client
-        .from('users')
+    final response = await SupabaseService.usersTable
         .select('email')
         .eq('collegeid', collegeId)
         .maybeSingle();
-
     return response?['email'];
   }
 
@@ -56,13 +54,13 @@ class _LoginPageState extends State<LoginPage>
       if (!input.contains('@')) {
         email = await _getEmailFromCollegeId(input);
         if (email == null) {
-          _showSnackBar("No matching College ID found.");
+          _showSnackBar(AppStrings.noCollegeIdFound);
           setState(() => _isLoading = false);
           return;
         }
       }
 
-      final res = await Supabase.instance.client.auth.signInWithPassword(
+      final res = await SupabaseService.signInWithPassword(
         email: email,
         password: _passwordController.text.trim(),
       );
@@ -72,19 +70,18 @@ class _LoginPageState extends State<LoginPage>
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => Navbar()));
       } else {
-        _showSnackBar("Login failed. Please try again.");
+        _showSnackBar(AppStrings.loginFailed);
       }
     } catch (e) {
-      _showSnackBar("Error: $e");
+      _showSnackBar(AppStrings.somethingWentWrong);
+      AppLogger.error('Login error', e);
     }
 
     setState(() => _isLoading = false);
   }
 
   void _showSnackBar(String msg) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg)),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
 
   @override
@@ -94,208 +91,139 @@ class _LoginPageState extends State<LoginPage>
         child: ScaleTransition(
           scale: _animation,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+            padding: AppSpacing.authPadding,
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// --- Top Logo ---
                   Center(
                     child: Column(
                       children: [
-                        Image.asset(
-                          'assets/icon/icon.png',
-                          width: 62,
-                          height: 62,
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          "CampusZone",
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: const Color(0xFF252525),
-                          ),
-                        )
+                        Image.asset(AppAssets.appIcon, width: 62, height: 62),
+                        SizedBox(height: AppSpacing.xxs),
+                        Text(AppStrings.appName,
+                            style: AppTextStyles.titleMedium
+                                .copyWith(color: AppColors.textPrimary)),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 80),
-
-                  Text(
-                    "Welcome Back :)",
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontFamily: 'PlayfairDisplay',
-                      color: const Color(0xFF252525),
-                    ),
-                  ),
-
-                  Text(
-                    "Please Sign in to continue",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: const Color(0xFF252525),
-                    ),
-                  ),
-
-                  const SizedBox(height: 60),
-
-                  Text(
-                    "Email or College ID",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[700],
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-
+                  SizedBox(height: AppSpacing.hero),
+                  Text(AppStrings.welcomeBack,
+                      style: AppTextStyles.displayMedium
+                          .copyWith(color: AppColors.textPrimary)),
+                  Text(AppStrings.signInToContinue,
+                      style: AppTextStyles.bodyLarge
+                          .copyWith(color: AppColors.textPrimary)),
+                  SizedBox(height: AppSpacing.sectionLarge),
+                  Text(AppStrings.emailOrCollegeId,
+                      style: AppTextStyles.labelMedium
+                          .copyWith(color: AppColors.textSecondary)),
+                  SizedBox(height: AppSpacing.xxs),
                   Container(
-                    height: 50,
+                    height: AppDimensions.inputHeight,
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFF252525)),
-                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.primary),
+                      borderRadius: AppRadius.inputRadius,
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    padding: AppSpacing.inputPadding,
                     child: Row(
                       children: [
-                        const Icon(LineIcons.userCircle, size: 22),
-                        const SizedBox(width: 12),
+                        Icon(LineIcons.userCircle, size: AppIconSize.md),
+                        SizedBox(width: AppSpacing.md),
                         Expanded(
                           child: TextFormField(
                             controller: _emailController,
-                            decoration: InputDecoration(
-                              hintText: "",
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(fontSize: 14),
-                            ),
-                            validator: (v) =>
-                                v == null || v.isEmpty ? "Required" : null,
+                            decoration:
+                                const InputDecoration(border: InputBorder.none),
+                            validator: Validators.required,
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 24),
-
-                  Text(
-                    "Password",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[700],
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-
+                  SizedBox(height: AppSpacing.xxl),
+                  Text(AppStrings.password,
+                      style: AppTextStyles.labelMedium
+                          .copyWith(color: AppColors.textSecondary)),
+                  SizedBox(height: AppSpacing.xxs),
                   Container(
-                    height: 50,
+                    height: AppDimensions.inputHeight,
                     decoration: BoxDecoration(
-                      border: Border.all(color: const Color(0xFF252525)),
-                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.primary),
+                      borderRadius: AppRadius.inputRadius,
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    padding: AppSpacing.inputPadding,
                     child: Row(
                       children: [
-                        const Icon(LineIcons.lock, size: 22),
-                        const SizedBox(width: 12),
+                        Icon(LineIcons.lock, size: AppIconSize.md),
+                        SizedBox(width: AppSpacing.md),
                         Expanded(
                           child: TextFormField(
                             controller: _passwordController,
                             obscureText: _obscureText,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "",
-                              hintStyle: TextStyle(fontSize: 14),
-                            ),
-                            validator: (v) =>
-                                v == null || v.isEmpty ? "Required" : null,
+                            decoration:
+                                const InputDecoration(border: InputBorder.none),
+                            validator: Validators.required,
                           ),
                         ),
                         IconButton(
                           icon: Icon(
-                            _obscureText ? LineIcons.eye : LineIcons.eyeSlash,
-                            size: 20,
-                          ),
+                              _obscureText ? LineIcons.eye : LineIcons.eyeSlash,
+                              size: AppIconSize.sm),
                           onPressed: () =>
                               setState(() => _obscureText = !_obscureText),
-                        )
+                        ),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 12),
-
+                  SizedBox(height: AppSpacing.md),
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const ForgotPassPage()),
-                      ),
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: const Color(0xFF7C7C7C),
-                        ),
-                      ),
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const ForgotPassPage())),
+                      child: Text(AppStrings.forgotPassword,
+                          style: AppTextStyles.labelMedium
+                              .copyWith(color: AppColors.textSecondary)),
                     ),
                   ),
-
-                  const SizedBox(height: 20),
-
+                  SizedBox(height: AppSpacing.xl),
                   SizedBox(
                     width: double.infinity,
-                    height: 52,
+                    height: AppDimensions.buttonHeight,
                     child: ElevatedButton(
                       onPressed: _signIn,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF242424),
+                        backgroundColor: AppColors.primaryLight,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
+                            borderRadius: AppRadius.buttonRadius),
                       ),
                       child: _isLoading
-                          ? const CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            )
-                          : Text(
-                              "Sign In",
-                              style: TextStyle(
-                                color: const Color(0xFFDDDDDD),
-                                fontSize: 20,
-                                fontFamily: 'PlayfairDisplay',
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          ? CircularProgressIndicator(
+                              strokeWidth: AppDimensions.loaderStrokeWidth,
+                              color: AppColors.textWhite)
+                          : Text(AppStrings.signIn,
+                              style: AppTextStyles.buttonLarge
+                                  .copyWith(color: AppColors.textLight)),
                     ),
                   ),
-
-                  const SizedBox(height: 18),
+                  SizedBox(height: AppSpacing.lg),
                   Center(
-                      child: Text(("Don’t have an account?"),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 14))),
-
+                      child: Text(AppStrings.dontHaveAccount,
+                          style: AppTextStyles.bodyMedium)),
                   Center(
                     child: TextButton(
                       onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const RegisterPage()),
-                      ),
-                      child: Text(
-                        "Sign Up",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const RegisterPage())),
+                      child: Text(AppStrings.signUp,
+                          style: AppTextStyles.titleSmall.copyWith(
+                              color: AppColors.textPrimary,
+                              fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ],

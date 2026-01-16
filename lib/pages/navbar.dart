@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:campuszone/core/core.dart';
 import 'package:campuszone/ui/community/community.dart';
 import 'package:campuszone/ui/home/home.dart';
 import 'package:campuszone/ui/profile/profile.dart';
@@ -9,7 +10,6 @@ import 'package:line_icons/line_icons.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({super.key});
-
   @override
   State<Navbar> createState() => _NavbarState();
 }
@@ -21,23 +21,8 @@ class _NavbarState extends State<Navbar> {
     HomePage(),
     CommunityPage(),
     ResourcesPage(),
-    ProfilePage(),
+    ProfilePage()
   ];
-
-  // Constants for colors
-  static const Color _transparentWhite = Color.fromARGB(0, 255, 255, 255);
-  static const Color _semiTransparentWhite = Color.fromARGB(128, 255, 255, 255);
-  static const Color _moreOpaqueWhite = Color.fromARGB(204, 255, 255, 255);
-  static const Color _fullyWhite = Colors.white;
-
-  // Constants for GNav properties
-  static const Color _unselectedColor = Colors.black;
-  static const Color _selectedColor = Colors.white;
-  static const Color _tabBackgroundColor = Colors.black;
-  static const double _iconSize = 36.0;
-  static const EdgeInsets _tabPadding = EdgeInsets.all(14.0);
-  static const EdgeInsets _navBarPadding =
-      EdgeInsets.symmetric(horizontal: 20, vertical: 30);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +39,7 @@ class _NavbarState extends State<Navbar> {
 
   Widget _buildPageView() {
     return PageTransitionSwitcher(
-      duration: const Duration(milliseconds: 500),
+      duration: AppAnimations.slow,
       transitionBuilder: (Widget child, Animation<double> animation,
           Animation<double> secondaryAnimation) {
         return SharedAxisTransition(
@@ -72,23 +57,18 @@ class _NavbarState extends State<Navbar> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-        height: 150, // Adjust this height as needed
-        decoration: const BoxDecoration(
+        height: AppDimensions.gradientHeight,
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              _transparentWhite, // Almost fully transparent
-              _semiTransparentWhite, // Semi-transparent white
-              _moreOpaqueWhite, // More opaque white
-              _fullyWhite, // Fully white at the bottom
+              AppColors.transparentWhite,
+              AppColors.semiTransparentWhite,
+              AppColors.opaqueWhite,
+              AppColors.textWhite
             ],
-            stops: [
-              0.0,
-              0.3,
-              0.8,
-              1.0
-            ], // Move the stop for transparency further along
+            stops: [0.0, 0.3, 0.8, 1.0],
           ),
         ),
       ),
@@ -101,42 +81,25 @@ class _NavbarState extends State<Navbar> {
       left: 0,
       right: 0,
       child: Padding(
-        padding: _navBarPadding,
+        padding: AppSpacing.navBarPadding,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
+          duration: AppAnimations.normal,
+          curve: AppAnimations.defaultCurve,
           child: GNav(
-            backgroundColor: Colors.transparent, // Keep it transparent
-            color: _unselectedColor, // Unselected icon color
-            activeColor: _selectedColor, // Selected icon color
-            tabBackgroundColor:
-                _tabBackgroundColor, // The tab color "pill shaped thingy"
+            backgroundColor: Colors.transparent,
+            color: AppColors.navUnselected,
+            activeColor: AppColors.navSelected,
+            tabBackgroundColor: AppColors.tabBackground,
             gap: 8,
-            iconSize: _iconSize, // Tab button icon size
-            padding: _tabPadding,
-            haptic: true, // Haptic feedback
-            onTabChange: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            tabs: const [
-              GButton(
-                icon: LineIcons.home,
-                text: 'Home',
-              ),
-              GButton(
-                icon: LineIcons.users,
-                text: 'Community',
-              ),
-              GButton(
-                icon: LineIcons.book,
-                text: 'Resources',
-              ),
-              GButton(
-                icon: LineIcons.user,
-                text: 'Profile',
-              ),
+            iconSize: AppIconSize.xl,
+            padding: AppSpacing.tabPadding,
+            haptic: true,
+            onTabChange: (index) => setState(() => _selectedIndex = index),
+            tabs: [
+              GButton(icon: LineIcons.home, text: AppStrings.home),
+              GButton(icon: LineIcons.users, text: AppStrings.community),
+              GButton(icon: LineIcons.book, text: AppStrings.resources),
+              GButton(icon: LineIcons.user, text: AppStrings.profile),
             ],
           ),
         ),

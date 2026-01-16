@@ -1,12 +1,12 @@
 import 'package:campuszone/chat/chat_list.dart';
+import 'package:campuszone/core/core.dart';
 import 'package:campuszone/custom/custom_divider.dart';
 import 'package:campuszone/ui/home/notice_board.dart';
+import 'package:campuszone/globals.dart' as globals;
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:campuszone/globals.dart'; // for globalCacheBuster
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,7 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final supabase = Supabase.instance.client;
   String? userName;
   String? userId;
   bool isLoading = true;
@@ -25,39 +24,36 @@ class _HomePageState extends State<HomePage> {
   late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
 
   Future<void> fetchUserName() async {
-    final user = supabase.auth.currentUser;
+    final user = SupabaseService.currentUser;
     if (user == null) {
-      if (mounted) {
+      if (mounted)
         setState(() {
-          userName = 'Guest';
+          userName = AppStrings.guest;
           isLoading = false;
         });
-      }
       return;
     }
-    // Store user id for profile picture URL construction.
     userId = user.id;
     try {
-      final response = await supabase
-          .from('users')
+      final response = await SupabaseService.usersTable
           .select('name')
           .eq('id', user.id)
           .single();
       if (!mounted) return;
       setState(() {
-        userName = response['name'] ?? 'User';
+        userName = response['name'] ?? AppStrings.user;
         isLoading = false;
       });
     } catch (e) {
+      AppLogger.error('Fetch user name failed', e);
       if (!mounted) return;
       setState(() {
-        userName = 'User';
+        userName = AppStrings.user;
         isLoading = false;
       });
     }
   }
 
-  // Initialize connectivity monitoring
   Future<void> initConnectivity() async {
     final result = await Connectivity().checkConnectivity();
     ConnectivityResult connectivityResult =
@@ -65,7 +61,6 @@ class _HomePageState extends State<HomePage> {
     updateConnectionStatus(connectivityResult);
   }
 
-  // Update connection status based on connectivity result
   void updateConnectionStatus(ConnectivityResult result) {
     if (mounted) {
       setState(() {
@@ -73,10 +68,9 @@ class _HomePageState extends State<HomePage> {
       });
       if (!isOnline) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('No internet connection'),
-            duration: Duration(seconds: 2),
-          ),
+          SnackBar(
+              content: Text(AppStrings.noInternet),
+              duration: AppAnimations.snackbarDuration),
         );
       }
     }
@@ -87,8 +81,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     fetchUserName();
     initConnectivity();
-
-    // Listen for connectivity changes without extra type casts
     _connectivitySubscription =
         Connectivity().onConnectivityChanged.listen((results) {
       if (results.isNotEmpty) {
@@ -105,15 +97,11 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  // Calculate responsive font size for the greeting
   double _calculateNameFontSize(BuildContext context, String name) {
     final screenWidth = MediaQuery.of(context).size.width;
     final baseFontSize = screenWidth < 600 ? 40.0 : 50.0;
-    if (name.length > 12) {
-      return baseFontSize * 0.8;
-    } else if (name.length > 8) {
-      return baseFontSize * 0.9;
-    }
+    if (name.length > 12) return baseFontSize * 0.8;
+    if (name.length > 8) return baseFontSize * 0.9;
     return baseFontSize;
   }
 
@@ -122,7 +110,7 @@ class _HomePageState extends State<HomePage> {
     final Size screenSize = MediaQuery.of(context).size;
     final bool isSmallScreen = screenSize.width < 600;
     final double horizontalPadding =
-        isSmallScreen ? 16.0 : screenSize.width * 0.1;
+        isSmallScreen ? AppSpacing.lg : screenSize.width * 0.1;
 
     return Scaffold(
       body: SafeArea(
@@ -133,22 +121,20 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Greeting Container with Profile Pic and Username
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.symmetric(
-                    vertical: isSmallScreen ? 24.0 : 32.0,
-                  ),
-                  margin: const EdgeInsets.only(top: 8),
+                      vertical:
+                          isSmallScreen ? AppSpacing.xxl : AppSpacing.huge),
+                  margin: EdgeInsets.only(top: AppSpacing.sm),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
+                    color: AppColors.cardBackground,
+                    borderRadius: AppRadius.inputRadius,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: .05),
-                        offset: const Offset(0, 2),
-                        blurRadius: 4,
-                      ),
+                          color: AppColors.primary.withValues(alpha: .05),
+                          offset: Offset(0, 2),
+                          blurRadius: 4),
                     ],
                   ),
                   child: Align(
@@ -158,105 +144,91 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Shimmer.fromColors(
-                                baseColor: Colors.grey[300]!,
-                                highlightColor: Colors.grey[100]!,
+                                baseColor: AppColors.shimmerBase,
+                                highlightColor: AppColors.shimmerHighlight,
                                 child: CircleAvatar(
-                                  radius: isSmallScreen ? 30 : 40,
-                                  backgroundColor: Colors.grey[300],
+                                  radius: isSmallScreen
+                                      ? AppDimensions.avatarRadiusSmall
+                                      : AppDimensions.avatarRadiusLarge,
+                                  backgroundColor: AppColors.shimmerBase,
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                              SizedBox(width: AppSpacing.lg),
                               Container(
-                                width: isSmallScreen ? 150 : 200,
-                                height: 20,
-                                color: Colors.grey[300],
-                              ),
+                                  width: isSmallScreen ? 150 : 200,
+                                  height: 20,
+                                  color: AppColors.shimmerBase),
                             ],
                           )
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // Profile Picture Avatar using similar logic to ProfilePage
                               ValueListenableBuilder(
-                                valueListenable: globalCacheBuster,
+                                valueListenable: globals.globalCacheBuster,
                                 builder: (context, value, child) {
                                   final cacheBuster = value ?? "";
                                   String imageUrl = "";
                                   if (userId != null) {
-                                    imageUrl = supabase.storage
-                                        .from('profilepic')
-                                        .getPublicUrl(
-                                            '$userId/profile_picture.jpg');
-                                    if (cacheBuster.isNotEmpty) {
-                                      imageUrl = '$imageUrl?t=$cacheBuster';
-                                    }
+                                    imageUrl =
+                                        SupabaseService.getProfilePictureUrl(
+                                            userId!,
+                                            cacheBuster: cacheBuster);
                                   }
+                                  final avatarSize =
+                                      isSmallScreen ? 60.0 : 80.0;
                                   return CircleAvatar(
-                                    radius: isSmallScreen ? 30 : 40,
-                                    backgroundColor: Colors.grey[300],
+                                    radius: isSmallScreen
+                                        ? AppDimensions.avatarRadiusSmall
+                                        : AppDimensions.avatarRadiusLarge,
+                                    backgroundColor: AppColors.shimmerBase,
                                     child: imageUrl.isEmpty
                                         ? ClipOval(
                                             child: Image.asset(
-                                              'assets/profile.png',
-                                              fit: BoxFit.cover,
-                                              width: isSmallScreen ? 60 : 80,
-                                              height: isSmallScreen ? 60 : 80,
-                                            ),
-                                          )
+                                                AppAssets.profileDefault,
+                                                fit: BoxFit.cover,
+                                                width: avatarSize,
+                                                height: avatarSize))
                                         : ClipOval(
                                             child: Image.network(
                                               imageUrl,
                                               fit: BoxFit.cover,
-                                              width: isSmallScreen ? 60 : 80,
-                                              height: isSmallScreen ? 60 : 80,
-                                              loadingBuilder:
-                                                  (BuildContext context,
-                                                      Widget child,
-                                                      ImageChunkEvent?
-                                                          loadingProgress) {
-                                                if (loadingProgress == null) {
+                                              width: avatarSize,
+                                              height: avatarSize,
+                                              loadingBuilder: (context, child,
+                                                  loadingProgress) {
+                                                if (loadingProgress == null)
                                                   return child;
-                                                }
                                                 return Shimmer.fromColors(
-                                                  baseColor: Colors.grey[300]!,
-                                                  highlightColor:
-                                                      Colors.grey[100]!,
+                                                  baseColor:
+                                                      AppColors.shimmerBase,
+                                                  highlightColor: AppColors
+                                                      .shimmerHighlight,
                                                   child: Container(
-                                                    width:
-                                                        isSmallScreen ? 60 : 80,
-                                                    height:
-                                                        isSmallScreen ? 60 : 80,
-                                                    color: Colors.grey[300],
-                                                  ),
+                                                      width: avatarSize,
+                                                      height: avatarSize,
+                                                      color: AppColors
+                                                          .shimmerBase),
                                                 );
                                               },
-                                              errorBuilder:
-                                                  (context, error, stackTrace) {
-                                                return Image.asset(
-                                                  'assets/profile.png',
-                                                  fit: BoxFit.cover,
-                                                  width:
-                                                      isSmallScreen ? 60 : 80,
-                                                  height:
-                                                      isSmallScreen ? 60 : 80,
-                                                );
-                                              },
+                                              errorBuilder: (_, __, ___) =>
+                                                  Image.asset(
+                                                      AppAssets.profileDefault,
+                                                      fit: BoxFit.cover,
+                                                      width: avatarSize,
+                                                      height: avatarSize),
                                             ),
                                           ),
                                   );
                                 },
                               ),
-                              const SizedBox(width: 16),
-                              // Greeting Text
+                              SizedBox(width: AppSpacing.lg),
                               Flexible(
                                 child: Text(
-                                  'Hey ${userName ?? 'User'}!',
-                                  style: TextStyle(
-                                    fontFamily: 'PlayfairDisplay',
+                                  'Hey ${userName ?? AppStrings.user}!',
+                                  style: AppTextStyles.displayMedium.copyWith(
                                     fontSize: _calculateNameFontSize(
-                                        context, userName ?? 'User'),
-                                    color: Colors.black,
-                                    letterSpacing: -0.5,
+                                        context, userName ?? AppStrings.user),
+                                    color: AppColors.textPrimary,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -265,39 +237,35 @@ class _HomePageState extends State<HomePage> {
                           ),
                   ),
                 ),
-                const SizedBox(height: 48),
-                // Chat Card Element (existing code)
+                SizedBox(height: AppSpacing.section),
                 StatefulBuilder(builder: (context, setStateSB) {
                   return GestureDetector(
                     onTapDown: (_) => setStateSB(() => isHovering = true),
                     onTapUp: (_) => setStateSB(() => isHovering = false),
                     onTapCancel: () => setStateSB(() => isHovering = false),
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const ChatPageList(),
-                        ),
-                      );
-                    },
+                            builder: (_) => const ChatPageList())),
                     child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 150),
+                      duration: AppAnimations.fast,
                       transform: isHovering
-                          ? Matrix4.translationValues(0, -5, 0)
+                          ? Matrix4.translationValues(
+                              0, AppAnimations.hoverLift, 0)
                           : Matrix4.identity(),
                       width: double.infinity,
-                      height: isSmallScreen ? 150 : 180,
+                      height: isSmallScreen
+                          ? AppDimensions.chatCardHeightSmall
+                          : AppDimensions.chatCardHeightLarge,
                       decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(24),
+                        color: AppColors.cardDark,
+                        borderRadius: AppRadius.buttonRadius,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black
+                            color: AppColors.cardDark
                                 .withValues(alpha: isHovering ? 0.3 : 0.2),
                             blurRadius: isHovering ? 16 : 12,
-                            offset: isHovering
-                                ? const Offset(0, 8)
-                                : const Offset(0, 6),
+                            offset: isHovering ? Offset(0, 8) : Offset(0, 6),
                             spreadRadius: isHovering ? 2 : 0,
                           ),
                         ],
@@ -305,56 +273,46 @@ class _HomePageState extends State<HomePage> {
                       child: Stack(
                         children: [
                           Center(
-                            child: Text(
-                              'Chat',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: isSmallScreen ? 42 : 52,
-                                fontFamily: 'PlayfairDisplay',
-                                letterSpacing: 1.0,
-                              ),
-                            ),
+                            child: Text(AppStrings.chat,
+                                style: AppTextStyles.displaySmall.copyWith(
+                                  color: AppColors.textWhite,
+                                  fontSize: isSmallScreen ? 42 : 52,
+                                )),
                           ),
                           Positioned(
-                            right: 16,
-                            bottom: 16,
-                            child: Icon(
-                              Icons.arrow_forward_rounded,
-                              color: Colors.white.withValues(alpha: .7),
-                              size: isSmallScreen ? 24 : 28,
-                            ),
+                            right: AppSpacing.lg,
+                            bottom: AppSpacing.lg,
+                            child: Icon(Icons.arrow_forward_rounded,
+                                color:
+                                    AppColors.textWhite.withValues(alpha: .7),
+                                size: isSmallScreen
+                                    ? AppIconSize.df
+                                    : AppIconSize.lg),
                           ),
                         ],
                       ),
                     ),
                   );
                 }),
-                const SizedBox(height: 24),
-                Center(
-                  child: SquigglyDivider(
-                      width: 200, height: 40, color: Colors.black),
-                ),
-                const SizedBox(height: 24),
-                // Noticeboard displayed as a Card Element
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24.0),
-                  ),
-                  elevation: 24,
-                  color: const Color(0xFF121212),
-                  child: SizedBox(
-                    height: 800, // adjust height as needed
-                    child: const NoticeBoardContent(),
-                  ),
-                ),
-                const SizedBox(height: 24),
+                SizedBox(height: AppSpacing.xxl),
                 Center(
                     child: SquigglyDivider(
-                  width: 200,
-                  height: 50,
-                  color: Colors.black,
-                )),
-                const SizedBox(height: 200),
+                        width: 200, height: 40, color: AppColors.primary)),
+                SizedBox(height: AppSpacing.xxl),
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: AppRadius.buttonRadius),
+                  elevation: AppElevation.feature,
+                  color: AppColors.primaryDark,
+                  child: SizedBox(
+                      height: AppDimensions.noticeboardHeight,
+                      child: const NoticeBoardContent()),
+                ),
+                SizedBox(height: AppSpacing.xxl),
+                Center(
+                    child: SquigglyDivider(
+                        width: 200, height: 50, color: AppColors.primary)),
+                SizedBox(height: 200),
               ],
             ),
           ),
