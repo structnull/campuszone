@@ -99,7 +99,7 @@ class _NotesPageState extends State<NotesPage>
                 padding: EdgeInsets.all(AppSpacing.md),
                 itemCount: 5,
                 itemBuilder: (_, __) => Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.only(bottom: AppSpacing.snackbar),
                   child: AppShimmerBox(
                     width: double.infinity,
                     height: 80,
@@ -118,7 +118,7 @@ class _NotesPageState extends State<NotesPage>
                         final note = _notes[index];
                         return AnimationConfiguration.staggeredList(
                           position: index,
-                          duration: const Duration(milliseconds: 500),
+                          duration: AppAnimations.slow,
                           child: SlideAnimation(
                             verticalOffset: 50.0,
                             child: FadeInAnimation(
@@ -182,12 +182,12 @@ class _NoteCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(AppSpacing.snackbar),
                 decoration: BoxDecoration(
                     color: AppColors.primary.withAlpha(30),
                     shape: BoxShape.circle),
-                child:
-                    Icon(LineIcons.pdfFile, color: AppColors.primary, size: 24),
+                child: Icon(LineIcons.pdfFile,
+                    color: AppColors.primary, size: AppIconSize.df),
               ),
               SizedBox(width: AppSpacing.md),
               Expanded(
@@ -215,7 +215,7 @@ class _NoteCard extends StatelessWidget {
             children: [
               if (note.subject != null) AppTag(label: note.subject!),
               if (note.semester != null) ...[
-                SizedBox(width: 8),
+                SizedBox(width: AppSpacing.sm),
                 AppTag(label: note.semester!)
               ],
               Spacer(),

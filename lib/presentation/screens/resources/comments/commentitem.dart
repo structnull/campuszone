@@ -31,7 +31,7 @@ class _CommentItemState extends State<CommentItem>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 150),
+      duration: AppAnimations.fast,
     );
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
@@ -86,23 +86,19 @@ class _CommentItemState extends State<CommentItem>
     return GestureDetector(
       onLongPress: _isOwnComment ? _toggleOverlay : null,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
+        padding: EdgeInsets.symmetric(vertical: AppSpacing.xxs),
         child: ScaleTransition(
           scale: _scaleAnimation,
           child: Stack(
             children: [
               AppCard(
                 padding: EdgeInsets.all(AppSpacing.md),
-                elevation: 2, // Low elevation for comments
-                borderRadius: BorderRadius.circular(12),
+                elevation: AppElevation.low,
+                borderRadius: BorderRadius.circular(AppRadius.md),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppAvatar(
-                      name: displayName,
-                      radius: 20,
-                      fontSize: 18,
-                    ),
+                    AppAvatar(name: displayName, radius: 20, fontSize: 18),
                     SizedBox(width: AppSpacing.md),
                     Expanded(
                       child: Column(
@@ -121,7 +117,7 @@ class _CommentItemState extends State<CommentItem>
                               ),
                             ],
                           ),
-                          SizedBox(height: 6),
+                          SizedBox(height: AppSpacing.xxs),
                           Text(
                             widget.comment.commentText,
                             style: AppTextStyles.bodyMedium,
@@ -130,12 +126,11 @@ class _CommentItemState extends State<CommentItem>
                             Align(
                               alignment: Alignment.bottomRight,
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 8),
+                                padding: EdgeInsets.only(top: AppSpacing.sm),
                                 child: Text(
                                   'Tap and hold to manage',
-                                  style: AppTextStyles.caption.copyWith(
+                                  style: AppTextStyles.labelSmall.copyWith(
                                     fontStyle: FontStyle.italic,
-                                    fontSize: 10,
                                   ),
                                 ),
                               ),
@@ -153,7 +148,7 @@ class _CommentItemState extends State<CommentItem>
                     child: Container(
                       decoration: BoxDecoration(
                         color: AppColors.black.withValues(alpha: 0.7),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(AppRadius.md),
                       ),
                       child: Center(
                         child: Row(
@@ -164,8 +159,8 @@ class _CommentItemState extends State<CommentItem>
                               icon: Icons.delete,
                               backgroundColor: AppColors.error,
                               onPressed: _showDeleteConfirmation,
-                              height: 40,
-                              width: 120,
+                              height: 20,
+                              width: 60,
                             ),
                             SizedBox(width: AppSpacing.md),
                             AppButton(
@@ -173,8 +168,8 @@ class _CommentItemState extends State<CommentItem>
                               icon: Icons.close,
                               backgroundColor: AppColors.textSecondary,
                               onPressed: _toggleOverlay,
-                              height: 40,
-                              width: 120,
+                              height: 20,
+                              width: 60,
                             ),
                           ],
                         ),

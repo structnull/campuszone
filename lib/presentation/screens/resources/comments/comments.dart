@@ -92,7 +92,7 @@ class _CommentsPageState extends State<CommentsPage> {
       if (mounted && _scrollController.hasClients) {
         _scrollController.animateTo(
           _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
+          duration: AppAnimations.normal,
           curve: Curves.easeOut,
         );
       }
@@ -188,12 +188,13 @@ class _CommentsPageState extends State<CommentsPage> {
             SizedBox(width: AppSpacing.sm),
             _isPosting
                 ? Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: EdgeInsets.all(AppSpacing.sm),
                     child: SizedBox(
-                        width: 20,
-                        height: 20,
+                        width: AppIconSize.sm,
+                        height: AppIconSize.sm,
                         child: CircularProgressIndicator(
-                            strokeWidth: 2, color: AppColors.primary)),
+                            strokeWidth: AppDimensions.loaderStrokeWidth,
+                            color: AppColors.primary)),
                   )
                 : IconButton(
                     icon: Icon(Icons.send),
@@ -215,11 +216,11 @@ class _CommentsPageState extends State<CommentsPage> {
       padding: EdgeInsets.all(AppSpacing.md),
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
+          padding: EdgeInsets.only(bottom: AppSpacing.md),
           child: AppShimmerBox(
             width: double.infinity,
             height: 80,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppRadius.md),
           ),
         );
       },

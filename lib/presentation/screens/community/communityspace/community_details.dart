@@ -69,7 +69,7 @@ class CommunityDetailPage extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  bottom: 20,
+                  bottom: AppSpacing.xl,
                   left: AppSpacing.lg,
                   right: AppSpacing.lg,
                   child: Text(
@@ -140,7 +140,7 @@ class CommunityDetailPage extends StatelessWidget {
                         }
                       },
                     ),
-                    SizedBox(height: 20), // Bottom padding
+                    SizedBox(height: AppSpacing.xl), // Bottom padding
                   ],
                 ),
               ),
@@ -155,14 +155,14 @@ class CommunityDetailPage extends StatelessWidget {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.all(8),
+          padding: EdgeInsets.all(AppSpacing.sm),
           decoration: BoxDecoration(
             color: AppColors.black,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppRadius.md),
           ),
-          child: Icon(icon, color: AppColors.white, size: 20),
+          child: Icon(icon, color: AppColors.white, size: AppIconSize.sm),
         ),
-        SizedBox(width: 12),
+        SizedBox(width: AppSpacing.md),
         Text(title, style: AppTextStyles.titleLarge),
       ],
     );
@@ -171,8 +171,8 @@ class CommunityDetailPage extends StatelessWidget {
   Widget _buildStatItem(IconData icon, String label, String value) {
     return Column(
       children: [
-        Icon(icon, color: AppColors.black, size: 24),
-        SizedBox(height: 8),
+        Icon(icon, color: AppColors.black, size: AppIconSize.df),
+        SizedBox(height: AppSpacing.sm),
         Text(value, style: AppTextStyles.titleMedium),
         Text(label, style: AppTextStyles.bodySmall),
       ],

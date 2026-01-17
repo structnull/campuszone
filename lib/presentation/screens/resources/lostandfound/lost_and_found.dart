@@ -99,7 +99,7 @@ class _LostAndFoundPageState extends State<LostAndFoundPage>
                 padding: EdgeInsets.all(AppSpacing.md),
                 itemCount: 5,
                 itemBuilder: (_, __) => Padding(
-                  padding: EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.only(bottom: AppSpacing.snackbar),
                   child: AppShimmerBox(width: double.infinity, height: 150),
                 ),
               )
@@ -114,7 +114,7 @@ class _LostAndFoundPageState extends State<LostAndFoundPage>
                         final item = _items[index];
                         return AnimationConfiguration.staggeredList(
                           position: index,
-                          duration: const Duration(milliseconds: 500),
+                          duration: AppAnimations.slow,
                           child: SlideAnimation(
                             verticalOffset: 50.0,
                             child: FadeInAnimation(
@@ -212,7 +212,7 @@ class _ItemCard extends StatelessWidget {
               children: [
                 Text(item.title, style: AppTextStyles.headlineSmall),
                 if (item.description.isNotEmpty) ...[
-                  SizedBox(height: 4),
+                  SizedBox(height: AppSpacing.xs),
                   Text(item.description, style: AppTextStyles.bodyMedium),
                 ],
                 SizedBox(height: AppSpacing.sm),
@@ -222,7 +222,7 @@ class _ItemCard extends StatelessWidget {
                   children: [
                     TextButton.icon(
                       onPressed: onComments,
-                      icon: Icon(LineIcons.comment, size: 20),
+                      icon: Icon(LineIcons.comment, size: AppIconSize.sm),
                       label: Text('Comments'),
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.textSecondary,

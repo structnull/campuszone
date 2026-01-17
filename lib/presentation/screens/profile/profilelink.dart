@@ -75,15 +75,15 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
           : _user == null
               ? AppEmptyState(title: "User not found", icon: LineIcons.user)
               : SingleChildScrollView(
-                  padding: const EdgeInsets.all(20),
+                  padding: EdgeInsets.all(AppSpacing.xl),
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.black,
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: AppRadius.buttonRadius,
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.black.withValues(alpha: 0.2),
-                          blurRadius: 12,
+                          blurRadius: AppSpacing.md,
                           offset: const Offset(0, 6),
                         )
                       ],
@@ -101,34 +101,35 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                      color: AppColors.white, width: 4),
+                                      color: AppColors.white,
+                                      width: AppDimensions.avatarBorderWidth),
                                 ),
                                 child: AppAvatar(
                                   imageUrl: url,
-                                  radius: 100,
+                                  radius: AppDimensions.profileAvatarRadius,
                                 ),
                               );
                             }),
-                        const SizedBox(height: 24),
+                        SizedBox(height: AppSpacing.xxl),
                         Text(
                           _user!.name,
                           style: AppTextStyles.headlineLarge
                               .copyWith(color: AppColors.white),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: AppSpacing.sm),
                         Text(
                           '@${_user!.collegeId}',
                           style: AppTextStyles.titleMedium.copyWith(
                               color: AppColors.white.withValues(alpha: 0.7)),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: AppSpacing.lg),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(LineIcons.calendarAlt,
                                 color: AppColors.white.withValues(alpha: 0.7),
-                                size: 18),
-                            const SizedBox(width: 8),
+                                size: AppIconSize.sm),
+                            SizedBox(width: AppSpacing.sm),
                             Text(
                               'Joined ${timeago.format(_user!.createdAt)}',
                               style: AppTextStyles.bodyMedium.copyWith(
@@ -137,7 +138,7 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 24),
+                        SizedBox(height: AppSpacing.xxl),
                         SizedBox(
                           width: double.infinity,
                           child: AppButton(
@@ -157,16 +158,16 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
                             textColor: AppColors.white,
                           ),
                         ),
-                        const SizedBox(height: 30),
+                        SizedBox(height: AppSpacing.full),
                         Divider(color: AppColors.white.withValues(alpha: 0.24)),
-                        const SizedBox(height: 20),
+                        SizedBox(height: AppSpacing.xl),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text("About:",
                               style: AppTextStyles.headlineMedium
                                   .copyWith(color: AppColors.white)),
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(height: AppSpacing.md),
                         Text(
                           (_user!.bio == null || _user!.bio!.isEmpty)
                               ? 'No bio provided.'
@@ -175,40 +176,43 @@ class _ProfileLinkPageState extends State<ProfileLinkPage> {
                               color: AppColors.white.withValues(alpha: 0.7)),
                           textAlign: TextAlign.left,
                         ),
-                        const SizedBox(height: 30),
+                        SizedBox(height: AppSpacing.full),
                         if (_user!.socials != null &&
                             (_user!.socials!.linkedin != null ||
                                 _user!.socials!.instagram != null ||
                                 _user!.socials!.twitter != null)) ...[
                           Divider(
                               color: AppColors.white.withValues(alpha: 0.24)),
-                          const SizedBox(height: 20),
+                          SizedBox(height: AppSpacing.xl),
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text("Socials",
                                 style: AppTextStyles.titleLarge
                                     .copyWith(color: AppColors.white)),
                           ),
-                          const SizedBox(height: 12),
+                          SizedBox(height: AppSpacing.md),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               if (_user!.socials!.linkedin != null)
                                 IconButton(
                                     icon: Icon(LineIcons.linkedin,
-                                        size: 32, color: AppColors.white),
+                                        size: AppIconSize.social,
+                                        color: AppColors.white),
                                     onPressed: () =>
                                         _launchURL(_user!.socials!.linkedin!)),
                               if (_user!.socials!.instagram != null)
                                 IconButton(
                                     icon: Icon(LineIcons.instagram,
-                                        size: 32, color: AppColors.white),
+                                        size: AppIconSize.social,
+                                        color: AppColors.white),
                                     onPressed: () =>
                                         _launchURL(_user!.socials!.instagram!)),
                               if (_user!.socials!.twitter != null)
                                 IconButton(
                                     icon: Icon(LineIcons.twitter,
-                                        size: 32, color: AppColors.white),
+                                        size: AppIconSize.social,
+                                        color: AppColors.white),
                                     onPressed: () =>
                                         _launchURL(_user!.socials!.twitter!)),
                             ],

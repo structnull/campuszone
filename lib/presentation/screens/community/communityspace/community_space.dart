@@ -88,7 +88,7 @@ class _CommunitySpaceState extends State<CommunitySpace> {
                               );
                             },
                             options: CarouselOptions(
-                              height: 400,
+                              height: AppDimensions.carouselCardHeight,
                               enlargeCenterPage: true,
                               enlargeStrategy: CenterPageEnlargeStrategy.scale,
                               viewportFraction: 0.75,
@@ -103,18 +103,21 @@ class _CommunitySpaceState extends State<CommunitySpace> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 16.0),
+                          padding: EdgeInsets.only(bottom: AppSpacing.lg),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: _communities.asMap().entries.map((entry) {
                               return AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
-                                width: _currentIndex == entry.key ? 16.0 : 8.0,
-                                height: 8.0,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 3.0),
+                                duration: AppAnimations.normal,
+                                width: _currentIndex == entry.key
+                                    ? AppSpacing.lg
+                                    : AppSpacing.sm,
+                                height: AppSpacing.sm,
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: AppSpacing.tiny),
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(4),
+                                  borderRadius:
+                                      BorderRadius.circular(AppRadius.tiny),
                                   color: _currentIndex == entry.key
                                       ? AppColors.black
                                       : Colors.grey[300],
@@ -145,7 +148,8 @@ class _CommunityCard extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 6),
+          margin: EdgeInsets.symmetric(
+              vertical: AppSpacing.lg, horizontal: AppSpacing.xxs),
           child: InkWell(
             onTap: () {
               Navigator.push(
@@ -156,7 +160,7 @@ class _CommunityCard extends StatelessWidget {
                 ),
               );
             },
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppRadius.lg),
             child: AppCard(
               padding: EdgeInsets.zero,
               // elevation uses default card elevation
@@ -167,7 +171,7 @@ class _CommunityCard extends StatelessWidget {
                     children: [
                       AppNetworkImage(
                         imageUrl: community.imageUrl ?? '',
-                        height: 180,
+                        height: AppDimensions.communityImageHeight,
                         width: double.infinity,
                         fit: BoxFit.cover,
                         borderRadius: BorderRadius.vertical(
@@ -178,7 +182,7 @@ class _CommunityCard extends StatelessWidget {
                         left: 0,
                         right: 0,
                         child: Container(
-                          height: 50,
+                          height: AppDimensions.gradientOverlayHeight,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
@@ -193,21 +197,23 @@ class _CommunityCard extends StatelessWidget {
                       ),
                       if (community.membersCount != null)
                         Positioned(
-                          top: 10,
-                          right: 10,
+                          top: AppSpacing.snackbar,
+                          right: AppSpacing.snackbar,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: AppSpacing.sm,
+                                vertical: AppSpacing.xs),
                             decoration: BoxDecoration(
                               color: AppColors.black.withValues(alpha: .6),
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(AppRadius.md),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Icon(Icons.people,
-                                    color: AppColors.white, size: 16),
-                                SizedBox(width: 4),
+                                    color: AppColors.white,
+                                    size: AppIconSize.xs),
+                                SizedBox(width: AppSpacing.xs),
                                 Text(
                                   community.membersCount!,
                                   style: AppTextStyles.caption.copyWith(
@@ -234,7 +240,7 @@ class _CommunityCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           if (shortDescription.isNotEmpty) ...[
-                            SizedBox(height: 8),
+                            SizedBox(height: AppSpacing.sm),
                             Text(
                               shortDescription,
                               style: AppTextStyles.bodySmall

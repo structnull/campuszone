@@ -48,17 +48,18 @@ class _EventPageState extends State<EventPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
               child: Row(
                 children: [
                   Text("Upcoming Events", style: AppTextStyles.headlineMedium),
                   SizedBox(width: AppSpacing.sm),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AppSpacing.snackbar,
+                        vertical: AppSpacing.xs),
                     decoration: BoxDecoration(
                         color: AppColors.black,
-                        borderRadius: BorderRadius.circular(16)),
+                        borderRadius: BorderRadius.circular(AppRadius.lg)),
                     child: Text(events.length.toString(),
                         style: AppTextStyles.labelSmall
                             .copyWith(color: AppColors.white)),
@@ -104,16 +105,16 @@ class _EventCard extends StatelessWidget {
         );
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
+        margin: EdgeInsets.only(bottom: AppSpacing.lg),
         decoration: BoxDecoration(
           color: AppColors.cardColor,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppRadius.xl),
           border: Border.all(color: AppColors.black, width: 0.8),
           boxShadow: [
             BoxShadow(
               color: AppColors.black.withAlpha(13),
               spreadRadius: 1,
-              blurRadius: 8,
+              blurRadius: AppSpacing.sm,
               offset: const Offset(0, 2),
             ),
           ],
@@ -123,65 +124,65 @@ class _EventCard extends StatelessWidget {
           children: [
             if (event.organizers.isNotEmpty)
               Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(AppSpacing.sm),
                   child: Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
+                    spacing: AppSpacing.sm,
+                    runSpacing: AppSpacing.sm,
                     children: event.organizers
                         .map((organizer) => AppTag(
                               label: organizer,
                               backgroundColor: AppColors.cardDark,
                               textColor: AppColors.textPrimary,
-                              borderRadius: 30,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 8),
+                              borderRadius: AppRadius.full,
+                              padding: AppSpacing.chipPadding,
                             ))
                         .toList(),
                   )),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Text(event.title, style: AppTextStyles.headlineSmall),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Text("${event.date ?? ''} · ${event.time ?? ''}",
                   style: AppTextStyles.bodyMediumBold),
             ),
             SizedBox(height: AppSpacing.sm),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Row(
                 children: [
                   Icon(Icons.location_on,
-                      size: 16, color: AppColors.textSecondary),
-                  SizedBox(width: 6),
+                      size: AppIconSize.xs, color: AppColors.textSecondary),
+                  SizedBox(width: AppSpacing.xxs),
                   Text(event.location ?? '', style: AppTextStyles.caption),
                 ],
               ),
             ),
             if (event.tags.isNotEmpty)
               Padding(
-                padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
+                padding: EdgeInsets.fromLTRB(
+                    AppSpacing.lg, AppSpacing.md, AppSpacing.lg, 0),
                 child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
                   children: event.tags
                       .map((tag) => AppTag(
                             label: tag,
                             backgroundColor: AppColors.cardDark,
                             textColor: AppColors.textWhite,
-                            borderRadius: 12,
+                            borderRadius: AppRadius.md,
                           ))
                       .toList(),
                 ),
               ),
-            SizedBox(height: 14),
+            SizedBox(height: AppSpacing.md),
             ClipRRect(
               borderRadius:
-                  BorderRadius.vertical(bottom: Radius.circular(19.2)),
+                  BorderRadius.vertical(bottom: Radius.circular(AppRadius.xl)),
               child: AppNetworkImage(
                 imageUrl: imageUrl,
-                height: 120,
+                height: AppDimensions.eventImageHeight,
                 width: double.infinity,
               ),
             ),

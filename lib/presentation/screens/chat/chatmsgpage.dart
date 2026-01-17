@@ -57,11 +57,11 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
 
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
-      Future.delayed(Duration(milliseconds: 100), () {
+      Future.delayed(AppAnimations.fastest, () {
         if (_scrollController.hasClients) {
           _scrollController.animateTo(
               _scrollController.position.maxScrollExtent,
-              duration: Duration(milliseconds: 300),
+              duration: AppAnimations.normal,
               curve: Curves.easeOut);
         }
       });
@@ -133,7 +133,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                         final isMyMessage = message.senderId == _currentUserId;
                         return AnimationConfiguration.staggeredList(
                           position: index,
-                          duration: const Duration(milliseconds: 375),
+                          duration: AppAnimations.pageTransition,
                           child: SlideAnimation(
                             verticalOffset: 50.0,
                             child: FadeInAnimation(
@@ -164,7 +164,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
               decoration: BoxDecoration(color: AppColors.cardColor, boxShadow: [
                 BoxShadow(
                   color: AppColors.shadow,
-                  blurRadius: 4,
+                  blurRadius: AppSpacing.xs,
                   offset: Offset(0, -2),
                 )
               ]),
@@ -181,9 +181,10 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                   IconButton(
                     icon: _isSending
                         ? SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(strokeWidth: 2))
+                            width: AppIconSize.df,
+                            height: AppIconSize.df,
+                            child: CircularProgressIndicator(
+                                strokeWidth: AppDimensions.loaderStrokeWidth))
                         : Icon(LineIcons.paperPlane, color: AppColors.primary),
                     onPressed: _sendMessage,
                   )
@@ -213,36 +214,36 @@ class _MessageBubble extends StatelessWidget {
     return GestureDetector(
       onLongPress: onLongPress,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 4),
+        margin: EdgeInsets.symmetric(vertical: AppSpacing.xs),
         child: Row(
           mainAxisAlignment:
               isMyMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (!isMyMessage) ...[
-              AppAvatar(imageUrl: senderProfileUrl, radius: 16),
-              SizedBox(width: 8),
+              AppAvatar(imageUrl: senderProfileUrl, radius: AppSpacing.lg),
+              SizedBox(width: AppSpacing.sm),
             ],
             Flexible(
               child: Container(
-                padding: EdgeInsets.all(12),
+                padding: EdgeInsets.all(AppSpacing.md),
                 decoration: BoxDecoration(
                     color:
                         isMyMessage ? AppColors.primary : AppColors.cardColor,
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
+                      topLeft: Radius.circular(AppRadius.lg),
+                      topRight: Radius.circular(AppRadius.lg),
                       bottomLeft: isMyMessage
-                          ? Radius.circular(16)
-                          : Radius.circular(4),
+                          ? Radius.circular(AppRadius.lg)
+                          : Radius.circular(AppRadius.tiny),
                       bottomRight: isMyMessage
-                          ? Radius.circular(4)
-                          : Radius.circular(16),
+                          ? Radius.circular(AppRadius.tiny)
+                          : Radius.circular(AppRadius.lg),
                     ),
                     boxShadow: [
                       BoxShadow(
                           color: AppColors.shadow.withValues(alpha: 0.05),
-                          blurRadius: 2,
+                          blurRadius: AppElevation.low,
                           offset: Offset(0, 1))
                     ]),
                 child: Column(
@@ -255,7 +256,7 @@ class _MessageBubble extends StatelessWidget {
                               ? AppColors.white
                               : AppColors.textPrimary),
                     ),
-                    SizedBox(height: 4),
+                    SizedBox(height: AppSpacing.xs),
                     Text(
                       timeago.format(message.createdAt),
                       style: AppTextStyles.caption.copyWith(

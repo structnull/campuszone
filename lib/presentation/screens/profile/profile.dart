@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage>
     _localCacheBuster = globalCacheBuster.value;
     _fetchUserData();
     _animationController = AnimationController(
-        duration: const Duration(milliseconds: 1200), vsync: this);
+        duration: AppAnimations.animationController, vsync: this);
     _fadeAnimation = CurvedAnimation(
         parent: _animationController, curve: AppAnimations.defaultCurve);
     _slideAnimation = Tween<Offset>(begin: Offset(-0.5, 0), end: Offset.zero)
@@ -229,7 +229,8 @@ class _ProfilePageState extends State<ProfilePage>
                                 _buildProfileHeader(userData),
                                 SizedBox(height: AppSpacing.xxl),
                                 _buildSocialIcons(userData),
-                                SizedBox(height: 200),
+                                SizedBox(
+                                    height: AppDimensions.bottomScrollSpacing),
                               ]),
                         ),
                       );
@@ -282,11 +283,13 @@ class _ProfilePageState extends State<ProfilePage>
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.textWhite, width: 4.0),
+                    border: Border.all(
+                        color: AppColors.textWhite,
+                        width: AppDimensions.avatarBorderWidth),
                     boxShadow: [
                       BoxShadow(
                           color: AppColors.primary.withValues(alpha: .2),
-                          blurRadius: 10,
+                          blurRadius: AppSpacing.snackbar,
                           spreadRadius: 2)
                     ],
                   ),

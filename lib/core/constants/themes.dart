@@ -6,7 +6,7 @@ import 'dimensions.dart';
 
 abstract class AppTheme {
   static ThemeData get lightTheme => ThemeData(
-        useMaterial3: true,
+        useMaterial3: false,
         brightness: Brightness.light,
         primaryColor: AppColors.primary,
         scaffoldBackgroundColor: AppColors.scaffoldBackground,
