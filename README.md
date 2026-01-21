@@ -8,69 +8,107 @@ CampusZone is a comprehensive Flutter mobile application designed to enhance cam
 
 ## Abstract
 
-CampusZone is a mobile application developed using Flutter to provide a centralized platform for students to enhance their campus life. The application offers various features such as user authentication, profile management, community events, notice board, resources section, and a chat system. The primary goal of CampusZone is to facilitate better communication, resource sharing, and engagement among students on campus.
+CampusZone is a mobile application developed using Flutter to provide a centralized platform for students. The application offers various features such as user authentication, profile management, community events, a notice board, a resources section (including notes and lost & found), and a chat system. The primary goal is to facilitate better communication, resource sharing, and engagement among students on campus.
 
 ## Problem Statement
 
-In many educational institutions, students face challenges in staying informed about campus activities, connecting with peers, and accessing resources. Traditional methods of communication, such as notice boards and emails, are often inefficient and fail to reach all students. There is a need for a modern, centralized platform that can address these issues and improve the overall campus experience for students.
+In many educational institutions, students face challenges in staying informed about campus activities, connecting with peers, and accessing resources. Traditional methods of communication are often inefficient. There is a need for a modern, centralized platform that can address these issues and improve the overall campus experience.
 
 ## Objective
 
-The objective of CampusZone is to create a user-friendly mobile application that addresses the communication and resource-sharing needs of students on campus. The application aims to provide a seamless experience for students to stay informed about campus events, connect with peers, access resources, and engage in meaningful interactions.
+The objective of CampusZone is to create a user-friendly mobile application that addresses the communication and resource-sharing needs of students. The application aims to provide a seamless experience for students to stay informed about campus events, connect with peers, access resources, and engage in meaningful interactions.
 
 ## Features
 
-- **User Authentication**
-  - Sign up/Login functionality
-  - Password recovery
-  - Profile creation
+### User Authentication
+- Sign up and Login functionality
+- Password recovery
+- Profile creation
 
-- **Profile Management**
-  - View and edit profile details
-  - Update profile picture with image cropping
-  - Account settings
+### Profile Management
+- View and edit profile details
+- Update profile picture with image cropping
+- Account settings
 
-- **Community Section**
-  - Campus events listing and details
-  - Event registration via external URLs
-  - Community announcements
+### Community Section
+- Campus events listing and details
+- Event registration via external URLs
+- Community announcements
 
-- **Notice Board**
-  - Campus-wide announcements and notifications
-  - Interactive notices with expandable content
-  - Timestamp and categorization
+### Notice Board
+- Campus-wide announcements and notifications
+- Interactive notices with expandable content
+- Timestamp and categorization
 
-- **Resources Section**
-  - Lost and Found system
-    - Post lost/found items with images
-    - Add descriptions
-    - Comment functionality
+### Resources Section
+- **Notes Repository**: Upload and access PDF notes and study materials.
+- **Lost and Found**:
+    - Post lost/found items with images.
+    - Add descriptions.
+    - Comment functionality.
 
-- **Chat System**
-  - Direct messaging between users
-  - Message history
-  - Real-time updates
+### Chat System
+- Direct messaging between users
+- Message history
+- Real-time updates
 
-## System Model Architecture
+## System Architecture
 
-The system model architecture of CampusZone is designed to ensure scalability, reliability, and ease of maintenance. The architecture consists of the following components:
 
-1. **Frontend**: The mobile application developed using Flutter, which provides the user interface and handles user interactions.
-2. **Backend**: Supabase is used as the backend service, providing authentication, database, and storage functionalities.
-3. **Database**: Supabase's PostgreSQL database is used to store user data, events, notices, chat messages, and lost and found items.
-4. **Storage**: Supabase's storage service is used to store user profile pictures and images related to lost and found items.
-5. **API**: Supabase's RESTful API is used to interact with the database and storage services.
+```mermaid
+graph TD
+    User[User Device] -->|HTTPS| App[Flutter Application]
+    
+    subgraph "CampusZone App"
+        UI[Presentation Layer]
+        Data[Data Layer]
+        Core[Core Utilities]
+        
+        UI -->|Uses| Data
+        Data -->|Uses| Core
+        UI -->|Uses| Core
+    end
+    
+    App -->|Auth/Data/Storage| Supabase[Supabase Backend]
+    
+    subgraph "Supabase Services"
+        Auth[Authentication]
+        DB[(PostgreSQL Database)]
+        Storage[File Storage]
+    end
+    
+    Supabase --> Auth
+    Supabase --> DB
+    Supabase --> Storage
+```
 
-## System Workflow
+## Project Structure
 
-The system workflow of CampusZone involves the following steps:
-
-1. **User Registration and Authentication**: Users can sign up and log in to the application using their email and password. Supabase handles the authentication process.
-2. **Profile Management**: Users can view and edit their profile details, including updating their profile picture. The updated information is stored in the Supabase database.
-3. **Community Events**: Users can view a list of upcoming campus events, register for events via external URLs, and view event details. Event data is fetched from the Supabase database.
-4. **Notice Board**: Users can view campus-wide announcements and notifications. Notices are categorized and timestamped for easy reference. Notice data is fetched from the Supabase database.
-5. **Resources Section**: Users can post lost and found items with images and descriptions. Other users can comment on these posts. Lost and found data is stored in the Supabase database, and images are stored in Supabase storage.
-6. **Chat System**: Users can send direct messages to other users, view message history, and receive real-time updates. Chat messages are stored in the Supabase database.
+```
+lib/
+├── app.dart                    # Main app entry point
+├── core/                       # Core functionality
+│   ├── config/                 # Environment and configuration
+│   ├── constants/              # Assets, colors, strings, themes
+│   ├── services/               # External services (Supabase)
+│   └── utils/                  # Utility classes and helpers
+├── data/                       # Data layer
+│   ├── datasources/            # Remote data fetching
+│   ├── models/                 # Data transfer objects
+│   └── repositories/           # Repository implementations
+├── presentation/               # UI Layer
+│   ├── layout/                 # Main app shell (scaffold, navbar)
+│   ├── screens/                # Application screens
+│   │   ├── auth/               # Authentication
+│   │   ├── chat/               # Chat
+│   │   ├── community/          # Events and community
+│   │   ├── home/               # Dashboard and notices
+│   │   ├── profile/            # User profile
+│   │   └── resources/          # Notes and Lost & Found
+│   └── widgets/                # Reusable UI components
+├── routing/                    # Navigation and route generation
+└── main.dart                   # Application entry
+```
 
 ## Screenshots
 
@@ -89,67 +127,6 @@ The system workflow of CampusZone involves the following steps:
   <img src="https://github.com/user-attachments/assets/33b22395-3729-42bf-bd98-af03c6676d72" width="150">
 </div>
 
-
-
-## Project Structure
-
-```
-campuszone                              # project root
-├── analysis_options.yaml
-├── assets
-│   ├── fonts
-│   │   └── Excalifont.ttf
-│   └── profile.png
-├── lib
-│   ├── auth                            # Authentication related screens
-│   │   ├── auth.dart
-│   │   ├── forgot_pass.dart
-│   │   ├── login_page.dart
-│   │   ├── name_page.dart
-│   │   └── register_page.dart
-│   ├── chat                            # Chat functionality
-│   │   ├── chat_list.dart
-│   │   └── chatmsgpage.dart
-│   ├── custom
-│   │   └── custom_divider.dart
-│   ├── globals.dart                    # Global variables and constants 
-│   ├── main.dart
-│   ├── pages                           # Main navigation pages including navbar
-│   │   ├── navbar.dart
-│   │   └── profilelink.dart
-│   └── ui                              # UI components organized by feature
-│       ├── community                   # Community and events related screens
-│       │   ├── community.dart
-│       │   └── events
-│       │       ├── eventdetails.dart
-│       │       └── events.dart
-│       ├── home                        # Home screen and notice board
-│       │   ├── home.dart
-│       │   └── notice_board.dart
-│       ├── profile                     # Profile related screens
-│       │   ├── about.dart
-│       │   ├── editprofile
-│       │   │   ├── edit_profile.dart
-│       │   │   └── profilepic
-│       │   │       ├── fullscreenpicpage.dart
-│       │   │       └── profile_picture.dart
-│       │   ├── profile.dart
-│       │   └── settings.dart
-│       └── resources                   # Resources page including lost and found Section
-│           ├── lostandfound
-│           │   ├── comments
-│           │   │   ├── commentitem.dart
-│           │   │   └── comments.dart
-│           │   ├── fullscreenpicpage.dart
-│           │   ├── lost_and_found.dart
-│           │   └── upload_data.dart
-│           └── resources.dart
-├── pubspec.lock
-├── pubspec.yaml                        # dependencies and assets 
-├── README.md
-
-```
-
 ## Setup Instructions
 
 ### Prerequisites
@@ -161,87 +138,74 @@ campuszone                              # project root
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/structnull/campuszone.git
-   cd campuszone
-   ```
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/structnull/campuszone.git
+    cd campuszone
+    ```
 
-2. **Set up environment variables**
-   
-   Create a .env file in the root directory with the following variables:
-   ```
-   SUPABASE_URL=your_supabase_url
-   SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
+2.  **Set up environment variables**
+    Create a `.env` file in the root directory with the following variables:
+    ```
+    SUPABASE_URL=your_supabase_url
+    SUPABASE_ANON_KEY=your_supabase_anon_key
+    ```
 
-3. **Install dependencies**
-   ```bash
-   flutter pub get
-   ```
+3.  **Install dependencies**
+    ```bash
+    flutter pub get
+    ```
 
-4. **Configure Supabase**
-   
-   Create the following tables in your Supabase instance:
-   - users (extends auth.users)
-   - notices
-   - events
-   - Chat messages
-   - Lost and found items
+4.  **Generate configuration**
+    This project uses `envied` for secure environment variable management. Run the build runner to generate the config files:
+    ```bash
+    dart run build_runner build
+    ```
 
-5. **Run the application**
-   ```bash
-   flutter run
-   ```
+5.  **Configure Supabase**
+    Ensure your Supabase instance has the required tables:
+    - `users` (extends `auth.users`)
+    - `notices`
+    - `events`
+    - `chat_messages`
+    - `lost_and_found`
+    - `notes` (and corresponding storage buckets)
+
+6.  **Run the application**
+    ```bash
+    flutter run
+    ```
 
 ## Dependencies
 
 CampusZone relies on several key packages:
 
-- [supabase_flutter](https://pub.dev/packages/supabase_flutter) - Backend and authentication
-- [image_picker](https://pub.dev/packages/image_picker) & [image_cropper](https://pub.dev/packages/image_cropper) - Image handling
-- [google_fonts](https://pub.dev/packages/google_fonts) - Typography
-- [url_launcher](https://pub.dev/packages/url_launcher) - Open external links
-- [permission_handler](https://pub.dev/packages/permission_handler) - Request permissions
-- [connectivity_plus](https://pub.dev/packages/connectivity_plus) - Network state management
-- [shimmer](https://pub.dev/packages/shimmer) & [flutter_staggered_animations](https://pub.dev/packages/flutter_staggered_animations) - UI effects
+-   `supabase_flutter` - Backend and authentication
+-   `image_picker` & `image_cropper` - Image handling
+-   `google_fonts` - Typography
+-   `url_launcher` - Open external links
+-   `flutter_staggered_animations` - UI effects
+-   `envied` - Environment variable management
+-   `pdfrx` - PDF viewing
+-   `file_picker` - File selection
 
-For a complete list of dependencies, see the pubspec.yaml file.
+For a complete list of dependencies, see the `pubspec.yaml` file.
 
 ## Platform Support
 
-CampusZone is configured for multiple platforms:
-- Android
-- iOS
-- Web
-- Linux
-- macOS
-- Windows
-
-## Building for Production
-
-### Android
-```bash
-flutter build apk --release
-```
-
-### iOS
-```bash
-flutter build ios --release
-```
-
-## Custom Fonts
-The application uses a custom font called "Excalifont" located in assets/Fonts/Excalifont.ttf.
+-   Android
+-   iOS (not tested)
 
 ## Contributions
-Contributions are welcome! Please follow these steps:
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Contributions are welcome. Please follow these steps:
+
+1.  Fork the repository
+2.  Create your feature branch (`git checkout -b feature/amazing-feature`)
+3.  Commit your changes (`git commit -m 'Add some amazing feature'`)
+4.  Push to the branch (`git push origin feature/amazing-feature`)
+5.  Open a Pull Request
 
 ## Acknowledgements
 
-- Johan george , kinnan , nandu for their ideas and support
+-   Johan George, Kinnan, Nandu for their ideas and support.
